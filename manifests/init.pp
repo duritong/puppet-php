@@ -61,18 +61,19 @@ define php::gentoo {
     }
    
     # config files
-    file{"/etc/php/apache2-php5/php.ini":
-        source => [
-            "puppet://$server/dist/php/apache2_php5_php.ini/${fqdn}/php.ini",
-            "puppet://$server/php/apache2_php5_php.ini/${fqdn}/php.ini",
-            "puppet://$server/php/apache2_php5_php.ini/default/php.ini",
-        ],
-        owner => root,
-        group => 0,
-        mode => 0644,
-        require => Package[php],
-        require => Package[apache],
-        notify => Service[apache],
+    file{
+        "/etc/php/apache2-php5/php.ini":
+	        source => [
+	            "puppet://$server/dist/php/apache2_php5_php.ini/${fqdn}/php.ini",
+	            "puppet://$server/php/apache2_php5_php.ini/${fqdn}/php.ini",
+	            "puppet://$server/php/apache2_php5_php.ini/default/php.ini"
+	        ],
+	        owner => root,
+	        group => 0,
+	        mode => 0644,
+	        require => Package[php],
+	        require => Package[apache],
+	        notify => Service[apache],
     }
 }
 
