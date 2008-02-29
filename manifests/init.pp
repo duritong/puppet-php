@@ -51,7 +51,7 @@ class php::debian::common {
 	}
 }
 
-define php::gentoo {
+class php::gentoo {
    package { 'php':
         ensure => present,
         category => $operatingsystem ? {
