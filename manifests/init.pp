@@ -66,7 +66,7 @@ class php::gentoo {
 	        source => [
 	            "puppet://$server/dist/php/apache2_php5_php.ini/${fqdn}/php.ini",
 	            "puppet://$server/php/apache2_php5_php.ini/${fqdn}/php.ini",
-	            "puppet://$server/php/apache2_php5_php.ini/default/php.ini"
+	            "puppet://$server/php/apache2_php5_php.ini/php.ini"
 	        ],
 	        owner => root,
 	        group => 0,
