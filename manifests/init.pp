@@ -21,11 +21,11 @@ class php::base {
         notify => Service[apache],
     }
     file{php_ini_config:
-        path => "/etc/php/apache2-php5/php.ini",
+        path => '/etc/php.ini',
         source => [
-	        "puppet://$server/files/apache/php/apache2_php5_php.ini/${fqdn}/php.ini",
-	        "puppet://$server/files/apache/php/apache2_php5_php.ini/php.ini",
-	        "puppet://$server/apache/php/apache2_php5_php.ini/php.ini"
+	        "puppet://$server/files/php/${fqdn}/php.ini",
+	        "puppet://$server/files/php/php.ini",
+	        "puppet://$server/php/php.ini"
 	    ],
 	    owner => root,
 	    group => 0,
@@ -50,7 +50,7 @@ class php::debian::pear::common {
 class php::debian inherits php::base {
     #dunno yet about this config file under debian
     File[php_ini_config]{
-        ensure => absent,
+        path => '/etc/php5/apache2/php.ini',
     }
     Package[php]{
         name => 'php5',
@@ -86,6 +86,9 @@ class php::debian::common {
 }
 
 class php::gentoo inherits php::base {
+    File[php_ini_config]{
+        path => "/etc/php/apache2-php5/php.ini",
+    }
     Package[php]{
         category => 'dev-lang',
     }
