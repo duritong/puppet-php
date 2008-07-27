@@ -7,7 +7,6 @@
 class php {
     case $operatingsystem {
         debian: { include php::debian }
-        centos: { include php::centos }
         ubuntu: { include php::ubuntu }
         gentoo: { include php::gentoo }
         default: { include php::base }
@@ -16,8 +15,7 @@ class php {
 
 class php::base {
     package{php:
-        ensure => installed,
-        before => Service[apache],
+        ensure => present,
         notify => Service[apache],
     }
     file{php_ini_config:
@@ -34,8 +32,6 @@ class php::base {
 	    notify => Service[apache],
     }
 }
-
-class php::centos inherits php::base {}
 
 define php::debian::pear ($version = '') {
 	include "php::debian::pear::common"
