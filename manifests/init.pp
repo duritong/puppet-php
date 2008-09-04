@@ -32,6 +32,8 @@ class php::base {
 	    require => [ Package[php], Package[apache] ],
 	    notify => Service[apache],
     }
+
+    include php::suhosin
 }
 
 class php::centos inherits php::base {
