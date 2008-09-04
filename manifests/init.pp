@@ -6,6 +6,7 @@
 #php
 class php {
     case $operatingsystem {
+        centos: { include php::centos }
         debian: { include php::debian }
         ubuntu: { include php::ubuntu }
         gentoo: { include php::gentoo }
@@ -30,6 +31,14 @@ class php::base {
 	    mode => 0644,
 	    require => [ Package[php], Package[apache] ],
 	    notify => Service[apache],
+    }
+}
+
+class php::centos inherits php::base {
+    include yum::utterramblings
+
+    Package[php]{
+        require => Yum::Managed_yumrepo['utterramblings'],
     }
 }
 
