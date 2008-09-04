@@ -39,9 +39,22 @@ class php::base {
 
 class php::centos inherits php::base {
     include yum::remi
+    include php::centos::common
 
     Package[php]{
         require => Yum::Managed_yumrepo['remi'],
+    }
+}
+
+class php::centos::common {
+    package{ 
+        [ 'php-idn', 'php-tidy', 'php-pear-MDB2', 
+            'php-pear-MDB2-Driver-mysql', 
+            'php-pear-MDB2-Driver-pgsql', 
+            'php-gd', 'php-pear-XML-Serializer', 
+            'php-pear-Cache-Lite', 'php-pecl-fileinfo',
+            'php-pear-Date-Holidays', 'php-mhash' ]:
+        ensure => installed,
     }
 }
 
