@@ -52,7 +52,7 @@ class php::centos::common {
             'php-pear-MDB2-Driver-mysql', 
             'php-pear-MDB2-Driver-pgsql', 
             'php-gd', 'php-pear-XML-Serializer', 
-            'php-pear-Cache-Lite', 'php-pecl-fileinfo',
+            'php-pear-Cache-Lite', 'php-pecl-Fileinfo',
             'php-pear-Date-Holidays', 'php-mhash' ]:
         ensure => installed,
     }
