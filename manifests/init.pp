@@ -34,6 +34,7 @@ class php::base {
     }
 
     include php::suhosin
+    include php::apc
 }
 
 class php::centos inherits php::base {
