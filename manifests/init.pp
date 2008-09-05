@@ -65,10 +65,6 @@ class php::centos::common {
     php::pear{ [ 'MDB2', 'MDB2-Driver-pgsql', 'MDB2-Driver-mysql', 
                 'Cache-Lite', 'Date-Holidays', 'XML-Serializer' ]: 
     }
-
-    php::pecl{'idn':
-        mode => 'cli',
-    }
 }
 
 class php::debian inherits php::base {
