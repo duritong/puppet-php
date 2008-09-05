@@ -119,6 +119,7 @@ define php::pecl(
     $mode = 'package'
 ) {
     include php::pear::common
+    include php::pecl::common
     case $mode {
         package: {
             php::package{$name:
@@ -131,6 +132,11 @@ define php::pecl(
             php::install{$name:
                 ensure => $ensure,
                 mode => 'pecl',
+                require => Package['gcc'],
+            }
+            file{'/etc/php.d/$name.ini':
+                content => "# File manged by puppet!\nextension=geoip.so",
+                owner => root, group => 0, mode => 0644;
             }
         }
         default: { fail("no such mode: $mode for php::pecl") }
@@ -215,6 +221,7 @@ define php::install(
 
     exec{"php_${mode}_${name}":
         command => $cli_str,
+        notify => Service['apache'],
     }
     case $ensure {
         installed,present: {
@@ -269,6 +276,9 @@ define php::install(
 
 class php::pear::common {
 	package { "php-pear": ensure => installed }
+}
+class php::pecl::common {
+	include gcc
 }
 
 class php::pear::common::cli {

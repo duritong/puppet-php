@@ -2,7 +2,7 @@
 
 class php::packages::geoip {
 
-    include geoip
+    include geoip::devel
 
     php::pecl{'geoip': 
         mode => 'cli', 
