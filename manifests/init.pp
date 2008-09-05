@@ -55,15 +55,19 @@ class php::centos inherits php::base {
 
 class php::centos::common {
     package{ 
-        [ 'php-common', 'php-idn', 'php-tidy', 
+        [ 'php-common', 'php-tidy', 
             'php-gd', 'php-mhash' ]:
         ensure => installed,
         require => Package['php'],
     }
 
-    php::pecl{'Fileinfo': }
+    php::pecl{ 'Fileinfo': }
     php::pear{ [ 'MDB2', 'MDB2-Driver-pgsql', 'MDB2-Driver-mysql', 
                 'Cache-Lite', 'Date-Holidays', 'XML-Serializer' ]: 
+    }
+
+    php::pecl{'idn':
+        mode => 'cli',
     }
 }
 
