@@ -206,7 +206,7 @@ define php::install(
     }
 
     case $ensure {
-        installed,present: { $ensure_str = 'install' }
+        installed,present: { $ensure_str = 'install -a' }
         absent: { $ensure_str = 'remove' }
         default: { fail("no such ensure: $ensure for php::install") }
     }
