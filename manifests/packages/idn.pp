@@ -3,5 +3,7 @@
 class php::packages::idn {
     php::pecl{'idn':
         mode => 'cli',
+        state => 'beta',
+        target_mode => 'pear',
     }
 }
