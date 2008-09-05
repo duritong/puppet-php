@@ -77,7 +77,8 @@ class php::debian inherits php::base {
         name => 'php5',
     }
 
-	package { [ "php5", "php5-cli", "libapache2-mod-php5", "phpunit2" ]: 
+	package { [ "php5", "php5-cli", "libapache2-mod-php5", 
+                "phpunit2", "php5-common" ]: 
         ensure => installed, 
         required => Package[php],
     }
@@ -254,15 +255,7 @@ define php::install(
 }
 
 class php::pear::common {
-	package { ["php-pear", "php-common" ]: ensure => installed }
-
-    case $operatingsystem {
-        debian,ubuntu: {
-            Package['php-common']{
-                name => 'php5-common',
-            }
-        }
-    }
+	package { "php-pear": ensure => installed }
 }
 
 class php::pear::common::cli {
