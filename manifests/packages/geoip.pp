@@ -1,6 +1,4 @@
-# manifests/packages/init.pp
-# 
-# file for all kind of extra php packages
+# manifests/packages/geoip.pp
 
 class php::packages::geoip {
     include geoip
