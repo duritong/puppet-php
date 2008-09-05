@@ -4,5 +4,8 @@
 
 class php::packages::geoip {
     include geoip
-    php::pecl{'geoip': mode => 'cli' }
+    php::pecl{'geoip': 
+        mode => 'cli', 
+        require => Package['GeoIP'],
+    }
 }
