@@ -115,7 +115,9 @@ class php::gentoo inherits php::base {
 define php::pecl(
     $phpversion = '',
     $ensure = 'installed',
-    $mode = 'package'
+    $mode = 'package',
+    $state = 'stable',
+    $target_mode = 'absent'
 ) {
     include php::pear::common
     include php::pecl::common
@@ -131,6 +133,8 @@ define php::pecl(
             php::install{$name:
                 ensure => $ensure,
                 mode => 'pecl',
+                state => $state,
+                target_mode => $target_mode,
                 require => Package['gcc'],
             }
             file{"/etc/php.d/$name.ini":
@@ -146,7 +150,9 @@ define php::pecl(
 define php::pear (
     $phpversion = '',
     $ensure = 'installed',
-    $mode = 'package'
+    $mode = 'package',
+    $state = 'stable',
+    $target_mode = 'absent'
 ) {
 	include php::pear::common
     case $mode {
@@ -161,6 +167,8 @@ define php::pear (
             php::install{$name:
                 ensure => $ensure,
                 mode => 'pear',
+                state => $state,
+                target_mode => $target_mode,
             }
         }
         default: { fail("no such mode: $mode for php::pecl") }

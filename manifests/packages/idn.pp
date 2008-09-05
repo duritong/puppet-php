@@ -1,7 +1,7 @@
 # manifests/packages/idn.pp
 
 class php::packages::idn {
-    php::pecl{'idn-beta':
+    php::pecl{'idn':
         mode => 'cli',
     }
 }
