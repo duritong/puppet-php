@@ -134,7 +134,7 @@ define php::pecl(
                 require => Package['gcc'],
             }
             file{"/etc/php.d/$name.ini":
-                content => "# File manged by puppet!\nextension=geoip.so",
+                content => "; File manged by puppet!\nextension=geoip.so",
                 notify => Service['apache'],
                 owner => root, group => 0, mode => 0644;
             }
@@ -160,7 +160,7 @@ define php::pear (
         cli: {
             php::install{$name:
                 ensure => $ensure,
-                mode => 'pecl',
+                mode => 'pear',
             }
         }
         default: { fail("no such mode: $mode for php::pecl") }
@@ -226,12 +226,12 @@ define php::install(
     case $ensure {
         installed,present: {
             Exec["php_${mode}_${name}"]{
-                unless => "$mode list | egrep -q \"^$name\W+\""
+                unless => "$mode list | egrep -q \"^$name \""
             }
         }
         absent: {
             Exec["php_${mode}_${name}"]{
-                onlyif => "$mode list | egrep -q \"^$name\W+\""
+                onlyif => "$mode list | egrep -q \"^$name \""
             }
         }
         default: { fail("no such ensure: $ensure for php::install") }
