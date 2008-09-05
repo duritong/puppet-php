@@ -37,6 +37,13 @@ class php::base {
     include php::apc
 }
 
+class php::devel {
+    package{'php-devel':
+        ensure => installed,
+        require => Package['php'],
+    }
+}
+
 class php::centos inherits php::base {
     include yum::remi
     include php::centos::common
@@ -48,24 +55,17 @@ class php::centos inherits php::base {
 
 class php::centos::common {
     package{ 
-        [ 'php-idn', 'php-tidy', 'php-pear-MDB2', 
-            'php-pear-MDB2-Driver-mysql', 
-            'php-pear-MDB2-Driver-pgsql', 
+        [ 'php-common', 'php-idn', 'php-tidy', 
             'php-gd', 'php-pear-XML-Serializer', 
-            'php-pear-Cache-Lite', 'php-pecl-Fileinfo',
-            'php-pear-Date-Holidays', 'php-mhash' ]:
+            'php-pear-Cache-Lite', 'php-mhash' ]:
         ensure => installed,
+        require => Package['php'],
     }
-}
 
-define php::debian::pear ($version = '') {
-	include "php::debian::pear::common"
-
-	package { "php${version}-${name}": ensure => installed }
-}
-
-class php::debian::pear::common {
-	package { ["php-pear", "php5-common" ]: ensure => installed }
+    php::pecl{'Fileinfo': }
+    php::pear{ [ 'MDB2', 'MDB2-Driver-pgsql', 'MDB2-Driver-mysql',
+                'Cache-Lite', 'Date-Holidays' ]: 
+    }
 }
 
 class php::debian inherits php::base {
@@ -82,12 +82,10 @@ class php::debian inherits php::base {
         required => Package[php],
     }
 
-	php::debian::pear { [
-		"auth-pam", "curl", "idn", "imap", "json", "ldap", "mcrypt", "mhash",
-		"ming", "mysql", "odbc", "pgsql", "ps", "pspell", "recode", "snmp",
-		"sqlite", "sqlrelay", "tidy", "uuid", "xapian", "xmlrpc", "xsl"
-		]:
-			version => 5
+	php::pear { [ "auth-pam", "curl", "idn", "imap", "json", "ldap", "mcrypt", "mhash",
+		            "ming", "mysql", "odbc", "pgsql", "ps", "pspell", "recode", "snmp",
+		            "sqlite", "sqlrelay", "tidy", "uuid", "xapian", "xmlrpc", "xsl" ]:
+	    version => 5
 	}
 
 	include "php::debian::common"
@@ -97,12 +95,11 @@ class php::ubuntu inherits php::debian {}
 
 
 class php::debian::common {
-	php::pear {
-		[ auth, benchmark, cache, cache-lite, date, db, file, fpdf, gettext,
-		html-template-it, http, http-request, log, mail, mail-mime, net-checkip,
-		net-dime, net-ftp, net-imap, net-ldap, net-sieve, net-smartirc, net-smtp,
-		net-socket, net-url, pager, radius, simpletest, services-weather, soap,
-		sqlite3, xajax, xml-parser, xml-serializer, xml-util ]:
+	php::pear { [ auth, benchmark, cache, cache-lite, date, db, file, fpdf, gettext,
+		    html-template-it, http, http-request, log, mail, mail-mime, net-checkip,
+		    net-dime, net-ftp, net-imap, net-ldap, net-sieve, net-smartirc, net-smtp,
+		    net-socket, net-url, pager, radius, simpletest, services-weather, soap,
+		    sqlite3, xajax, xml-parser, xml-serializer, xml-util ]:
 	}
 }
 
@@ -114,3 +111,167 @@ class php::gentoo inherits php::base {
         category => 'dev-lang',
     }
 }
+
+define php::pecl(
+    $phpversion = '',
+    $ensure = 'installed',
+    $mode = 'package'
+) {
+    include php::pear::common
+    case $mode {
+        package: {
+            php::package{$name:
+                phpversion => $phpversion,
+                ensure => $ensure,
+                mode => 'pecl',
+                require => Package['php'],
+            }
+        }
+        cli: {
+            php::install{$name:
+                ensure => $ensure,
+                mode => 'pecl',
+                require => Package['php'],
+            }
+        }
+        default: { fail("no such mode: $mode for php::pecl") }
+    }
+}
+
+define php::pear (
+    $phpversion = '',
+    $ensure = 'installed',
+    $mode = 'package'
+) {
+	include php::pear::common
+
+	package { "php${phpversion}-${name}": ensure => $ensure }
+    case $mode {
+        package: {
+            php::package{$name:
+                phpversion => $phpversion,
+                ensure => $ensure,
+                mode => 'pear',
+                require => Package['php'],
+            }
+        }
+        cli: {
+            php::install{$name:
+                ensure => $ensure,
+                mode => 'pecl',
+                require => Package['php'],
+            }
+        }
+        default: { fail("no such mode: $mode for php::pecl") }
+    }
+}
+
+define php::package(
+    $phpversion = '',
+    $ensure = 'installed',
+    $mode = 'pear'
+){
+    package{"php${phpversion}-$name":
+        ensure => $ensure,
+        require => Package['php'],
+    }
+    case $operatingsystem {
+        centos,redhat,fedora: {
+            Package["php${phpversion}-$name"]{
+                name => "php${phpversion}-$mode-$name",
+            }
+         }
+    }
+    if $require {
+        Package["php${phpversion}-$name"]{
+            require +> $require,
+        }
+    }
+}
+
+define php::install(
+    $ensure = 'installed',
+    $mode = 'pecl'
+){
+    include php::pear::common::cli
+    case $operatingsystem {
+        centos,redhat: {
+            include php::devel 
+        } 
+    }
+
+    case $ensure {
+        installed,present: { $ensure_str = 'install' }
+        absent: { $ensure_str = 'remove' }
+        default: { fail("no such ensure: $ensure for php::install") }
+    }
+
+    $cli_part = "$ensure_str $name"
+
+    case $mode {
+        'pecl': {
+            $cli_str = "pecl $cli_part"
+        }
+        'pear': {
+            $cli_str = "pear $cli_part"
+        }
+        default: { fail("no such method: $method for php::install") }
+    } 
+
+    exec{"php_$mode_$name":
+        command => $cli_str,
+        require => [ Package['php'], Package['php-pear'], Package['php-common'] ],
+    }
+    case $operatingsystem {
+        centos,redhat,fedora: {
+            Exec["php_$mode_$name"]{
+                require +> Package['php-devel'],
+            }
+         }
+    }
+    case $ensure {
+        installed,present: {
+            Exec["php_$mode_$name"]{
+                unless => "$mode list | egrep -q \"^$name\W+\""
+            }
+        }
+        absent: {
+            Exec["php_$mode_$name"]{
+                onlyif => "$mode list | egrep -q \"^$name\W+\""
+            }
+        }
+    }
+    if $require {
+        Exec["php_$mode_$name"]{
+            require +> $require,
+        }
+    }
+    if $notify {
+        Exec["php_$mode_$name"]{
+            notify => $notify,
+        }
+    }
+}
+
+class php::pear::common {
+	package { ["php-pear", "php-common" ]: ensure => installed }
+
+    case $operatingsystem {
+        debian,ubuntu: {
+            Package['php-common']{
+                name => 'php5-common',
+            }
+        }
+    }
+}
+
+class php::pear::common::cli {
+    # updates for pear installations
+    # we put a Z in front to ensure that it gets executed after the dail yum update
+    file{'/etc/cron.daily/Z_pear_upgrade.sh':
+        source => "puppet://$server/php/pecl/$operatingsystem/pear_upgrade.sh",
+        owner => root, group => 0, mode => 0700;
+    }
+}
+
+
