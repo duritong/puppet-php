@@ -213,36 +213,36 @@ define php::install(
         default: { fail("no such method: $method for php::install") }
     } 
 
-    exec{"php_$mode_$name":
+    exec{"php_${mode}_${name}":
         command => $cli_str,
         require => [ Package['php'], Package['php-pear'], Package['php-common'] ],
     }
     case $operatingsystem {
         centos,redhat,fedora: {
-            Exec["php_$mode_$name"]{
+            Exec["php_${mode}_${name}"]{
                 require +> Package['php-devel'],
             }
          }
     }
     case $ensure {
         installed,present: {
-            Exec["php_$mode_$name"]{
+            Exec["php_${mode}_${name}"]{
                 unless => "$mode list | egrep -q \"^$name\W+\""
             }
         }
         absent: {
-            Exec["php_$mode_$name"]{
+            Exec["php_${mode}_${name}"]{
                 onlyif => "$mode list | egrep -q \"^$name\W+\""
             }
         }
     }
     if $require {
-        Exec["php_$mode_$name"]{
+        Exec["php_${mode}_${name}"]{
             require +> $require,
         }
     }
     if $notify {
-        Exec["php_$mode_$name"]{
+        Exec["php_${mode}_${name}"]{
             notify => $notify,
         }
     }
