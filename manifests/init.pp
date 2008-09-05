@@ -133,7 +133,7 @@ define php::pecl(
                 mode => 'pecl',
                 require => Package['gcc'],
             }
-            file{'/etc/php.d/$name.ini':
+            file{"/etc/php.d/$name.ini":
                 content => "# File manged by puppet!\nextension=geoip.so",
                 notify => Service['apache'],
                 owner => root, group => 0, mode => 0644;
