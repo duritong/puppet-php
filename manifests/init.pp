@@ -125,14 +125,12 @@ define php::pecl(
                 phpversion => $phpversion,
                 ensure => $ensure,
                 mode => 'pecl',
-                require => Package['php'],
             }
         }
         cli: {
             php::install{$name:
                 ensure => $ensure,
                 mode => 'pecl',
-                require => Package['php'],
             }
         }
         default: { fail("no such mode: $mode for php::pecl") }
@@ -151,14 +149,12 @@ define php::pear (
                 phpversion => $phpversion,
                 ensure => $ensure,
                 mode => 'pear',
-                require => Package['php'],
             }
         }
         cli: {
             php::install{$name:
                 ensure => $ensure,
                 mode => 'pecl',
-                require => Package['php'],
             }
         }
         default: { fail("no such mode: $mode for php::pecl") }
@@ -172,7 +168,7 @@ define php::package(
 ){
     package{"php${phpversion}-$name":
         ensure => $ensure,
-        require => Package['php'],
+        require +> Package['php'],
     }
     case $operatingsystem {
         centos,redhat,fedora: {
