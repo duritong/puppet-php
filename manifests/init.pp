@@ -168,7 +168,7 @@ define php::package(
 ){
     package{"php${phpversion}-$name":
         ensure => $ensure,
-        require +> Package['php'],
+        require => Package['php'],
     }
     case $operatingsystem {
         centos,redhat,fedora: {
