@@ -215,14 +215,6 @@ define php::install(
 
     exec{"php_${mode}_${name}":
         command => $cli_str,
-        require => [ Package['php'], Package['php-pear'], Package['php-common'] ],
-    }
-    case $operatingsystem {
-        centos,redhat,fedora: {
-            Exec["php_${mode}_${name}"]{
-                require +> Package['php-devel'],
-            }
-         }
     }
     case $ensure {
         installed,present: {
@@ -235,10 +227,37 @@ define php::install(
                 onlyif => "$mode list | egrep -q \"^$name\W+\""
             }
         }
+        default: { fail("no such ensure: $ensure for php::install") }
     }
     if $require {
-        Exec["php_${mode}_${name}"]{
-            require +> $require,
+        case $operatingsystem {
+            centos,redhat,fedora: {
+                Exec["php_${mode}_${name}"]{
+                    require =>  [ Package['php'], Package['php-pear'], 
+                        Package['php-common'], Package['php-devel'], $require ],
+                }
+            }
+            default: {
+                Exec["php_${mode}_${name}"]{
+                    require =>  [ Package['php'], Package['php-pear'], 
+                        Package['php-common'], $require ],
+                }
+            }
+        }
+    } else {
+        case $operatingsystem {
+            centos,redhat,fedora: {
+                Exec["php_${mode}_${name}"]{
+                    require =>  [ Package['php'], Package['php-pear'], 
+                        Package['php-common'], Package['php-devel'] ],
+                }
+            }
+            default: {
+                Exec["php_${mode}_${name}"]{
+                    require =>  [ Package['php'], Package['php-pear'], 
+                        Package['php-common'] ],
+                }
+            }
         }
     }
     if $notify {
