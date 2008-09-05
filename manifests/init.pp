@@ -145,8 +145,6 @@ define php::pear (
     $mode = 'package'
 ) {
 	include php::pear::common
-
-	package { "php${phpversion}-${name}": ensure => $ensure }
     case $mode {
         package: {
             php::package{$name:
