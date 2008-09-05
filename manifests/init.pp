@@ -192,7 +192,9 @@ define php::package(
 
 define php::install(
     $ensure = 'installed',
-    $mode = 'pecl'
+    $mode = 'pecl',
+    $state = 'stable',
+    $target_mode = 'absent'
 ){
     include php::pear::common::cli
     case $operatingsystem {
@@ -202,9 +204,19 @@ define php::install(
     }
 
     case $ensure {
-        installed,present: { $ensure_str = 'install -a' }
-        absent: { $ensure_str = 'remove' }
+        installed,present: { 
+            $ensure_str = 'install -a' 
+            case $state {
+                beta: { $post_cli_str = "-beta" }
+            }
+        }
+        absent: { $ensure_str = 'uninstall' }
         default: { fail("no such ensure: $ensure for php::install") }
+    }
+
+    case $target_mode {
+        'absent': { $real_target_mode = $target_mode }
+        default: { $real_target_mode = $mode }
     }
 
     $cli_part = "$ensure_str $name"
@@ -220,18 +232,18 @@ define php::install(
     } 
 
     exec{"php_${mode}_${name}":
-        command => $cli_str,
+        command => "${cli_str}${post_clit_str}",
         notify => Service['apache'],
     }
     case $ensure {
         installed,present: {
             Exec["php_${mode}_${name}"]{
-                unless => "$mode list | egrep -q \"^$name \""
+                unless => "$real_target_mode list | egrep -q \"^$name \""
             }
         }
         absent: {
             Exec["php_${mode}_${name}"]{
-                onlyif => "$mode list | egrep -q \"^$name \""
+                onlyif => "$real_target_mode list | egrep -q \"^$name \""
             }
         }
         default: { fail("no such ensure: $ensure for php::install") }
