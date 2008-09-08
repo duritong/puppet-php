@@ -1,7 +1,7 @@
 # manifests/packages/cache.pp
 
 class php::packages::cache {
-    php::pear{'cache': 
+    php::pear{'Cache': 
         mode => 'cli', 
     }
 }
