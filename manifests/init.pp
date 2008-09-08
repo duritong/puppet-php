@@ -223,8 +223,8 @@ define php::install(
     }
 
     case $target_mode {
-        'absent': { $real_target_mode = $target_mode }
-        default: { $real_target_mode = $mode }
+        'absent': { $real_target_mode = $mode }
+        default: { $real_target_mode = $target_mode }
     }
 
     $cli_part = "$ensure_str $name"
