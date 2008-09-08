@@ -1,5 +1,8 @@
 # manifests/packages/idn.pp
 
 class php::packages::idn {
-    php::pecl{'idn': }
+    package{'php-idn': 
+        ensure => installed,
+        notify => Service['apache'],
+    }
 }
