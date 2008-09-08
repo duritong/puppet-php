@@ -246,12 +246,12 @@ define php::install(
     case $ensure {
         installed,present: {
             Exec["php_${mode}_${name}"]{
-                unless => "$real_target_mode list | egrep -q \"^$name \""
+                unless => "$real_target_mode list | egrep -qi \"^$name \""
             }
         }
         absent: {
             Exec["php_${mode}_${name}"]{
-                onlyif => "$real_target_mode list | egrep -q \"^$name \""
+                onlyif => "$real_target_mode list | egrep -qi \"^$name \""
             }
         }
         default: { fail("no such ensure: $ensure for php::install") }
