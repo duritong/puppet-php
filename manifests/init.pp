@@ -248,7 +248,6 @@ define php::install(
             Exec["php_${mode}_${name}"]{
                 unless => "$real_target_mode list | egrep -q \"^$name \""
             }
-            notice("exec: $real_target_mode list | egrep -q \"^$name \"")
         }
         absent: {
             Exec["php_${mode}_${name}"]{
