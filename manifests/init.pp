@@ -40,18 +40,10 @@ class php::base {
 
     include php::suhosin
     include php::apc
-}
-
-class php::devel {
-    package{'php-devel':
-        ensure => installed,
-        require => Package['php'],
-    }
+    include php::extensions::common
 }
 
 class php::centos inherits php::base {
-    include php::centos::common
-
     if $php_centos_use_remi {
         include yum::remi
         Package[php]{
@@ -60,15 +52,7 @@ class php::centos inherits php::base {
     }
 }
 
-class php::centos::common {
-    package{ 
-        [ 'php-common', 'php-tidy', 
-            'php-gd', 'php-mhash' ]:
-        ensure => installed,
-        require => Package['php'],
-    }
-}
-
+# the debian class is not tested!
 class php::debian inherits php::base {
     #dunno yet about this config file under debian
     File[php_ini_config]{
@@ -78,15 +62,14 @@ class php::debian inherits php::base {
         name => 'php5',
     }
 
-	package { [ "php5", "php5-cli", "libapache2-mod-php5", 
-                "phpunit2", "php5-common" ]: 
+	package { 'libapache2-mod-php5', 
         ensure => installed, 
         required => Package[php],
     }
 
-	php::pear { [ "auth-pam", "curl", "idn", "imap", "json", "ldap", "mcrypt", "mhash",
+	php::pear { [ "auth-pam", "curl", "idn", "imap", "ldap", 
 		            "ming", "mysql", "odbc", "pgsql", "ps", "pspell", "recode", "snmp",
-		            "sqlite", "sqlrelay", "tidy", "uuid", "xapian", "xmlrpc", "xsl" ]:
+		            "sqlite", "sqlrelay", "uuid", "xapian", "xmlrpc", "xsl" ]:
 	    version => 5
 	}
 
@@ -95,15 +78,6 @@ class php::debian inherits php::base {
 # ubuntu might be the same as debian
 class php::ubuntu inherits php::debian {}
 
-
-class php::debian::common {
-	php::pear { [ auth, benchmark, cache, cache-lite, date, db, file, fpdf, gettext,
-		    html-template-it, http, http-request, log, mail, mail-mime, net-checkip,
-		    net-dime, net-ftp, net-imap, net-ldap, net-sieve, net-smartirc, net-smtp,
-		    net-socket, net-url, pager, radius, simpletest, services-weather, soap,
-		    sqlite3, xajax, xml-parser, xml-serializer, xml-util ]:
-	}
-}
 
 class php::gentoo inherits php::base {
     File[php_ini_config]{
