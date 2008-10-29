@@ -8,4 +8,5 @@ class php::extensions::common {
     php::package{'json':
         mode => 'pecl',
     }
+    include php::pear::common
 }
