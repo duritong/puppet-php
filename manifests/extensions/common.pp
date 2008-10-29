@@ -3,7 +3,7 @@
 class php::extensions::common {
     php::package{
         [ 'cli', 'common', 'tidy',
-            'gd', 'mhash', ]:
+            'gd', 'mhash' ]:
     }
     php::package{'json':
         mode => 'pecl',

@@ -62,7 +62,7 @@ class php::debian inherits php::base {
         name => 'php5',
     }
 
-	package { 'libapache2-mod-php5', 
+	package { 'libapache2-mod-php5':
         ensure => installed, 
         required => Package[php],
     }
