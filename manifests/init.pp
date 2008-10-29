@@ -50,11 +50,13 @@ class php::devel {
 }
 
 class php::centos inherits php::base {
-    include yum::remi
     include php::centos::common
 
-    Package[php]{
-        require => Yum::Managed_yumrepo['remi'],
+    if $php_centos_use_remi {
+        include yum::remi
+        Package[php]{
+            require => Yum::Managed_yumrepo['remi'],
+        }
     }
 }
 
@@ -64,11 +66,6 @@ class php::centos::common {
             'php-gd', 'php-mhash' ]:
         ensure => installed,
         require => Package['php'],
-    }
-
-    php::pecl{ 'Fileinfo': }
-    php::pear{ [ 'MDB2', 'MDB2-Driver-pgsql', 'MDB2-Driver-mysql', 
-                'Cache-Lite', 'Date-Holidays', 'XML-Serializer' ]: 
     }
 }
 
@@ -114,21 +111,5 @@ class php::gentoo inherits php::base {
     }
     Package[php]{
         category => 'dev-lang',
-    }
-}
-
-class php::pear::common {
-	package { "php-pear": ensure => installed }
-}
-class php::pecl::common {
-	include gcc
-}
-
-class php::pear::common::cli {
-    # updates for pear installations
-    # we put a Z in front to ensure that it gets executed after the dail yum update
-    file{'/etc/cron.daily/Z_pear_upgrade.sh':
-        source => "puppet://$server/php/pear/$operatingsystem/pear_upgrade.sh",
-        owner => root, group => 0, mode => 0700;
     }
 }
