@@ -1,8 +1,6 @@
 # manifests/suhosin.pp
 
 class php::suhosin {
-<<<<<<< HEAD:manifests/suhosin.pp
-=======
     case $operatingsystem {
         centos: {
             if $php_centos_use_remi {
@@ -16,7 +14,6 @@ class php::suhosin {
 }
 
 class php::suhosin::package {
->>>>>>> puzzle/development:manifests/suhosin.pp
     package{'php-suhosin':
         ensure => installed,
     }
