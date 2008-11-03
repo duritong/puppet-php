@@ -192,3 +192,69 @@ define php::install(
     }
 }
 
+
+define php::apache::vhost(
+    $domain = 'absent',
+    $domainalias = 'absent',
+    $path = 'absent',
+    $owner = root,
+    $group = 0,
+    $mode = 0644,
+    $allow_override = 'None',
+    $php_upload_tmp_dir = 'absent',
+    $php_session_save_path = 'absent',
+    $additional_options = 'absent'
+){
+    $servername = $domain ? {
+        'absent' => $name,
+        default => $domain
+    }
+    $serveralias = $domainalias ? {
+        'absent' => '',
+        default => $domainalias
+    }
+    $documentroot = $path ? {
+        'absent' => "/var/www/${name}",
+        default => $path
+    }
+
+    file{"$documentroot":
+        ensure => directory,
+        owner => $owner, group => $group, mode => $mode;
+    }
+
+    case $php_upload_tmp_dir {
+        'absent': {
+            include php::defaultapachedirs
+            $upload_tmp_dir = "/var/www/upload_tmp_dir/${name}"
+        }
+        default: {
+            $upload_tmp_dir = $php_upload_tmp_dir 
+        }
+    }
+    file{"$upload_tmp_dir":
+        ensure => directory,
+        owner => $owner, group => $group, mode => $mode;
+    }
+
+    case $php_session_save_path {
+        'absent': {
+            include php::defaultapachedirs
+            $session_save_path = "/var/www/session.save_path/${name}"
+        }
+        default: {
+            $session_save_path = $php_session_save_path 
+        }
+    }
+    file{"$session_save_path":
+        ensure => directory,
+        owner => $owner, group => $group, mode => $mode;
+    }
+    
+
+    file{"/etc/httpd/vhosts.d/${servername}.conf":
+        content => template("php/vhosts/${operatingsystem}.erb"),
+        notify => Service['apache'],
+        owner => root, group => 0, mode => 0644;
+    }
+}
