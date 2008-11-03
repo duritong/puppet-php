@@ -29,7 +29,7 @@ class php::base {
         source => [
 	        "puppet://$server/files/php/${fqdn}/php.ini",
 	        "puppet://$server/files/php/php.ini",
-	        "puppet://$server/php/php.ini"
+	        "puppet://$server/php/config/php.ini"
 	    ],
 	    owner => root,
 	    group => 0,
