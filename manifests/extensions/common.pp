@@ -7,7 +7,7 @@ class php::extensions::common {
         mode => 'direct',
     }
     case $php_centos_use_remi {
-        'true': { info("php-pecl-json is included in php-common of remi") }
+        true: { info("php-pecl-json is included in php-common of remi") }
         default: {
             php::package{'json':
                 mode => 'pecl',
