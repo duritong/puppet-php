@@ -29,6 +29,7 @@ class php::base {
         source => [
 	        "puppet://$server/files/php/${fqdn}/php.ini",
 	        "puppet://$server/files/php/php.ini",
+	        "puppet://$server/php/config/php.ini.${architecture}",
 	        "puppet://$server/php/config/php.ini"
 	    ],
 	    require => [ Package[php], Package[apache] ],
