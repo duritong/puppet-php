@@ -24,9 +24,4 @@ define php::package(
             }
         }
     }
-    if $require {
-        Package["php${phpversion}-$name"]{
-            require +> $require,
-        }
-    }
 }
