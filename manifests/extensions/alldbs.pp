@@ -1,7 +1,7 @@
 # manifests/extensions/alldbs.pp
 
 class php::extensions::alldbs {
-    include php::mysql
-    include php::pgsql
+    include php::extensions::mysql
+    include php::extensions::pgsql
 }
 

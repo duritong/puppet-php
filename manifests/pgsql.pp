@@ -1,11 +1,15 @@
 # manifests/pgsql.pp
 
 class php::pgsql {
+
+    include php
+
     case $operatingsystem {
         gentoo: { info("gentoo manges php modules with useflags") }
         default: { 
-            php::package{'pgsql': 
-                mode => direct,
+            package{'php-pgsql': 
+                ensure => present,
+                require => Package[php],
             } 
         }
     }
