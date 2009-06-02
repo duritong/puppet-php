@@ -56,53 +56,18 @@ define php::install(
         }
         default: { fail("no such ensure: $ensure for php::install") }
     }
-    case $ensure {
-        installed,present: {
+    case $operatingsystem {
+        centos,redhat,fedora: {
             Exec["php_${mode}_${name}"]{
-                unless => "$real_target_mode list | egrep -qi \"^$name \""
+                require =>  [ Package['php'], Package['php-pear'],
+                    Package['php-common'], Package['php-devel'] ],
             }
         }
-        absent: {
+        default: {
             Exec["php_${mode}_${name}"]{
-                onlyif => "$real_target_mode list | egrep -qi \"^$name \""
+                require =>  [ Package['php'], Package['php-pear'],
+                    Package['php-common'] ],
             }
-        }
-        default: { fail("no such ensure: $ensure for php::install") }
-    }
-    if $require {
-        case $operatingsystem {
-            centos,redhat,fedora: {
-                Exec["php_${mode}_${name}"]{
-                    require =>  [ Package['php'], Package['php-pear'],
-                        Package['php-common'], Package['php-devel'], $require ],
-                }
-            }
-            default: {
-                Exec["php_${mode}_${name}"]{
-                    require =>  [ Package['php'], Package['php-pear'],
-                        Package['php-common'], $require ],
-                }
-            }
-        }
-    } else {
-        case $operatingsystem {
-            centos,redhat,fedora: {
-                Exec["php_${mode}_${name}"]{
-                    require =>  [ Package['php'], Package['php-pear'],
-                        Package['php-common'], Package['php-devel'] ],
-                }
-            }
-            default: {
-                Exec["php_${mode}_${name}"]{
-                    require =>  [ Package['php'], Package['php-pear'],
-                        Package['php-common'] ],
-                }
-            }
-        }
-    }
-    if $notify {
-        Exec["php_${mode}_${name}"]{
-            notify => $notify,
         }
     }
 }
