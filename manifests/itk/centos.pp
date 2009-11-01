@@ -4,7 +4,7 @@ class php::itk::centos inherits php::centos {
         source => [
             "puppet://$server/files/php/apache_itk/${operatingsystem}/${fqdn}/php.conf",
             "puppet://$server/files/php/apache_itk/${operatingsystem}/php.conf",
-            "puppet://$server/php/apache_itk/${operatingsystem}/php.conf"
+            "puppet://$server/modules/php/apache_itk/${operatingsystem}/php.conf"
         ],
     }
 }
