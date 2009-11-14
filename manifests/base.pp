@@ -6,8 +6,8 @@ class php::base {
     file{php_ini_config:
         path => '/etc/php.ini',
         source => [
-          "puppet://$server/files/php/${fqdn}/php.ini",
-          "puppet://$server/files/php/php.ini",
+          "puppet://$server/modules/site-php/${fqdn}/php.ini",
+          "puppet://$server/modules/site-php/php.ini",
           "puppet://$server/modules/php/config/php.ini.${architecture}",
           "puppet://$server/modules/php/config/php.ini"
       ],
