@@ -8,7 +8,7 @@ class php::centos inherits php::base {
     if $php_centos_use_testing {
         include yum::centos::testing
         Package[php]{
-            require => Yum::Managed_yumrepo['testing-php'],
+            require => Yum::Managed_yumrepo['centos5-testing'],
         }
     }
     file{'/etc/httpd/conf.d/php.conf':
