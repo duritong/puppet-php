@@ -22,6 +22,6 @@ define php::pear (
                 target_mode => $target_mode,
             }
         }
-        default: { fail("no such mode: $mode for php::pecl") }
+        default: { fail("no such mode: $mode for php::pear") }
     }
 }
