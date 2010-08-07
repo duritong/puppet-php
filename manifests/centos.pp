@@ -13,9 +13,9 @@ class php::centos inherits php::base {
     }
     file{'/etc/httpd/conf.d/php.conf':
         source => [
-            "puppet://$server/modules/site-php/apache/${operatingsystem}/${fqdn}/php.conf",
-            "puppet://$server/modules/site-php/apache/${operatingsystem}/php.conf",
-            "puppet://$server/modules/php/apache/${operatingsystem}/php.conf"
+            "puppet:///modules/site-php/apache/${operatingsystem}/${fqdn}/php.conf",
+            "puppet:///modules/site-php/apache/${operatingsystem}/php.conf",
+            "puppet:///modules/php/apache/${operatingsystem}/php.conf"
         ],
       require => [ Package[php], Package[apache] ],
       notify => Service[apache],

@@ -6,10 +6,10 @@ class php::base {
     file{php_ini_config:
         path => '/etc/php.ini',
         source => [
-          "puppet://$server/modules/site-php/${fqdn}/php.ini",
-          "puppet://$server/modules/site-php/php.ini",
-          "puppet://$server/modules/php/config/php.ini.${architecture}",
-          "puppet://$server/modules/php/config/php.ini"
+          "puppet:///modules/site-php/${fqdn}/php.ini",
+          "puppet:///modules/site-php/php.ini",
+          "puppet:///modules/php/config/php.ini.${architecture}",
+          "puppet:///modules/php/config/php.ini"
       ],
       require => [ Package[php], Package[apache] ],
       notify => Service[apache],
