@@ -1,3 +1,5 @@
-class php::extensions::pear::file {
-  php::pear{'File': }
+class php::extensions::pear::net_dns {
+  php::pear{'Net_DNS':
+    mode => 'cli',
+  }
 }
