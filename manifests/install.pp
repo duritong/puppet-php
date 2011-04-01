@@ -12,7 +12,7 @@ define php::install(
     }
 
     case $ensure {
-        installed,present: {
+        'installed','present': {
             $ensure_str = 'install -a'
             case $state {
                 beta: { $post_cli_str = "-beta" }
@@ -40,7 +40,7 @@ define php::install(
     }
 
     exec{"php_${mode}_${name}":
-        command => "${cli_str}${post_clit_str}",
+        command => "${cli_str}${post_cli_str}",
         notify => Service['apache'],
     }
     case $ensure {
