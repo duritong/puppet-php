@@ -60,7 +60,7 @@ define php::install(
         centos,redhat,fedora: {
             Exec["php_${mode}_${name}"]{
                 require =>  [ Package['php'], Package['php-pear'],
-                    Package['php-common'], Package['php-devel'] ],
+                    Package['php-common'], Package["php-devel.${architecture}"] ],
             }
         }
         default: {
