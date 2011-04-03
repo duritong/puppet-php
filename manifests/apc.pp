@@ -1,7 +1,6 @@
-# manifests/apc.pp
-
 class php::apc {
-    package{'php-pecl-apc':
-        ensure => installed,
-    }
+  package{'php-pecl-apc':
+    ensure => installed,
+  }
+  include perl::pcre::devel
 }
