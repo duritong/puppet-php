@@ -2,7 +2,7 @@
 
 class php::extensions::common {
     php::package{
-        [ 'cli', 'common', 'tidy',
+        [ 'common', 'tidy',
             'gd', 'mhash' ]:
         mode => 'direct',
     }
