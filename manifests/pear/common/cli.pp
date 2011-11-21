@@ -1,4 +1,6 @@
 class php::pear::common::cli {
+  require php::pecl::common
+  require php::pear::common
   require php::devel
   # updates for pear installations
   # we put a Z in front to ensure that it gets executed after the dail yum update

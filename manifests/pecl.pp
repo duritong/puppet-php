@@ -5,8 +5,8 @@ define php::pecl(
     $state = 'stable',
     $target_mode = 'absent'
 ) {
-    include php::pear::common
-    include php::pecl::common
+    require php::pear::common
+    require php::pecl::common
     case $mode {
         package: {
             php::package{$name:
@@ -21,7 +21,6 @@ define php::pecl(
                 mode => 'pecl',
                 state => $state,
                 target_mode => $target_mode,
-                require => Package['gcc'],
             }
             file{"/etc/php.d/$name.ini":
                 content => "; File manged by puppet!\nextension=${name}.so",

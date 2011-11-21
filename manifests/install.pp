@@ -4,10 +4,10 @@ define php::install(
     $state = 'stable',
     $target_mode = 'absent'
 ){
-    include php::pear::common::cli
+    require php::pear::common::cli
     case $operatingsystem {
         centos,redhat: {
-            include php::devel
+            require php::devel
         }
     }
 
@@ -59,14 +59,12 @@ define php::install(
     case $operatingsystem {
         centos,redhat,fedora: {
             Exec["php_${mode}_${name}"]{
-                require =>  [ Package['php'], Package['php-pear'],
-                    Package['php-common'], Package["php-devel.${architecture}"] ],
+                require => [ Package['php'], Package['php-common'] ],
             }
         }
         default: {
             Exec["php_${mode}_${name}"]{
-                require =>  [ Package['php'], Package['php-pear'],
-                    Package['php-common'] ],
+                require =>  [ Package['php'], Package['php-common'] ],
             }
         }
     }

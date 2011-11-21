@@ -5,7 +5,7 @@ define php::pear (
     $state = 'stable',
     $target_mode = 'absent'
 ) {
-    include php::pear::common
+    require php::pear::common
     case $mode {
         package: {
             php::package{$name:
