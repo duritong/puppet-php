@@ -143,7 +143,7 @@ y2k_compliance = On
 ; setting this directive to On.  If you wish to limit the size of the buffer
 ; to a certain size - you can use a maximum number of bytes instead of 'On', as
 ; a value for this directive (e.g., output_buffering=4096).
-output_buffering = 4096
+output_buffering = Off
 
 ; You can redirect all of the output of your scripts to a function.  For
 ; example, if you set output_handler to "mb_output_handler", character
@@ -483,9 +483,6 @@ post_max_size = 20M
 
 ; Magic quotes
 ;
-
-; Magic quotes for incoming GET/POST/Cookie data.
-magic_quotes_gpc = On
 
 ; Magic quotes for runtime-generated data, e.g. data from SQL, from exec(), etc.
 magic_quotes_runtime = Off
