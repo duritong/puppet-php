@@ -6,12 +6,13 @@
 # Simon Josi josi+puppet(at)puzzle.ch
 # See LICENSE for the full license granted to you.
 
-class php {
-    case $operatingsystem {
-        centos: { include php::centos }
-        debian: { include php::debian }
-        ubuntu: { include php::ubuntu }
-        gentoo: { include php::gentoo }
-        default: { include php::base }
-    }
+class php($cluster_node = '') {
+  include php::params
+  case $::operatingsystem {
+    centos: { include php::centos }
+    debian: { include php::debian }
+    ubuntu: { include php::ubuntu }
+    gentoo: { include php::gentoo }
+    default: { include php::base }
+  }
 }

@@ -5,7 +5,7 @@ define php::install(
     $target_mode = 'absent'
 ){
     require php::pear::common::cli
-    case $operatingsystem {
+    case $::operatingsystem {
         centos,redhat: {
             require php::devel
         }
@@ -46,17 +46,17 @@ define php::install(
     case $ensure {
         installed,present: {
             Exec["php_${mode}_${name}"]{
-                unless => "$real_target_mode list | egrep -qi \"^$name \""
+                unless => "${real_target_mode} list | egrep -qi \"^${name} \""
             }
         }
         absent: {
             Exec["php_${mode}_${name}"]{
-                onlyif => "$real_target_mode list | egrep -qi \"^$name \""
+                onlyif => "${real_target_mode} list | egrep -qi \"^${name} \""
             }
         }
-        default: { fail("no such ensure: $ensure for php::install") }
+        default: { fail("no such ensure: ${ensure} for php::install") }
     }
-    case $operatingsystem {
+    case $::operatingsystem {
         centos,redhat,fedora: {
             Exec["php_${mode}_${name}"]{
                 require => [ Package['php'], Package['php-common'] ],

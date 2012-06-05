@@ -12,8 +12,8 @@ class php::extensions::common {
               mode => 'direct';
         }
     }
-    if $php_centos_use_remi or $php_centos_use_testing {
-      info("php-pecl-json is included in php-common of remi")
+    if $php::params::centos_use_remi or $php::params::centos_use_testin {
+      #php-pecl-json is included in php-common of remi or testing
     } else {
       php::package{'json':
         mode => 'pecl',

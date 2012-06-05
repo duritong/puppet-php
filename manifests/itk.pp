@@ -1,6 +1,6 @@
 
 class php::itk inherits php {
-    case $operatingsystem {
+    case $::operatingsystem {
         centos: { include php::itk::centos }
     }
 }

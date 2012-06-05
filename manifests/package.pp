@@ -7,7 +7,7 @@ define php::package(
         ensure => $ensure,
         require => Package['php'],
     }
-    case $operatingsystem {
+    case $::operatingsystem {
         centos,redhat,fedora: {
             case $mode {
                 'direct': {
