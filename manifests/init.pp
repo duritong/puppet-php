@@ -6,7 +6,7 @@
 # Simon Josi josi+puppet(at)puzzle.ch
 # See LICENSE for the full license granted to you.
 
-class php($cluster_node = '') {
+class php {
   include php::params
   case $::operatingsystem {
     centos: { include php::centos }
