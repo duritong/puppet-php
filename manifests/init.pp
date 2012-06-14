@@ -6,8 +6,11 @@
 # Simon Josi josi+puppet(at)puzzle.ch
 # See LICENSE for the full license granted to you.
 
-class php {
-  include php::params
+class php(
+  $centos_use_testing = false,
+  $centos_use_remi = false,
+  $cluster_node = ''
+) {
   case $::operatingsystem {
     centos: { include php::centos }
     debian: { include php::debian }
