@@ -3,13 +3,14 @@ define php::pecl(
     $ensure = 'installed',
     $mode = 'package',
     $state = 'stable',
-    $target_mode = 'absent'
+    $target_mode = 'absent',
+    $package_name = $name
 ) {
     require php::pear::common
     require php::pecl::common
     case $mode {
         package: {
-            php::package{$name:
+            php::package{$package_name:
                 phpversion => $phpversion,
                 ensure => $ensure,
                 mode => 'pecl',
