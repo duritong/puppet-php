@@ -18,6 +18,4 @@ class php::debian inherits php::base {
                 "sqlite", "sqlrelay", "uuid", "xapian", "xmlrpc", "xsl" ]:
     version => 5
   }
-
-  include "php::debian::common"
 }
