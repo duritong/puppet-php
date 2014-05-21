@@ -13,9 +13,8 @@ class php::debian inherits php::base {
     require => Package[php],
   }
 
-  php::pear { [ "auth-pam", "curl", "idn", "imap", "ldap",
-                "ming", "odbc", "pgsql", "ps", "pspell", "recode", "snmp",
-                "sqlite", "sqlrelay", "uuid", "xapian", "xmlrpc", "xsl" ]:
+  php::pear { [ "curl", "idn", "imap", "ldap", "ming", "odbc", "pgsql", "ps",
+                "pspell", "recode", "snmp", "sqlite", "xmlrpc", "xsl" ]:
     phpversion => 5
   }
 }

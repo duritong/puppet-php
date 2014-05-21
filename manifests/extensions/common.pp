@@ -2,8 +2,7 @@
 
 class php::extensions::common {
     php::package{
-        [ 'common', 'tidy',
-            'gd' ]:
+        [ 'common', 'tidy', 'gd' ]:
         mode => 'direct',
     }
     if ($::operatingsystem == 'centos' and $::lsbmajdistrelease == '5') {
