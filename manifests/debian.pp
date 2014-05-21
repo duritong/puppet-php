@@ -14,7 +14,7 @@ class php::debian inherits php::base {
   }
 
   php::pear { [ "auth-pam", "curl", "idn", "imap", "ldap",
-                "ming", "mysql", "odbc", "pgsql", "ps", "pspell", "recode", "snmp",
+                "ming", "odbc", "pgsql", "ps", "pspell", "recode", "snmp",
                 "sqlite", "sqlrelay", "uuid", "xapian", "xmlrpc", "xsl" ]:
     phpversion => 5
   }
