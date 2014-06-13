@@ -6,6 +6,11 @@ class php::suhosin {
         include php::suhosin::package
       }
     }
+    debian: {
+      if $::lsbdistcodename == 'squeeze' or $::lsbdistcodename == 'sid' {
+        include php::suhosin::package
+      }
+    }
     default: {
       include php::suhosin::package
     }
