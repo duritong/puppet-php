@@ -1,5 +1,12 @@
+# the Net_UserAgent_Detect package
 class php::extensions::pear::net_useragent_detect {
-  php::pear{'Net_UserAgent_Detect':
-    mode => 'cli',
+  if versioncmp($::operatingsystemmajrelease,'6') > 0 {
+    package{'php-pear-Net-UserAgent-Detect':
+      ensure => installed,
+    }
+  } else {
+    php::pear{'Net_UserAgent_Detect':
+      mode => 'cli',
+    }
   }
 }

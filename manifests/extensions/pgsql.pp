@@ -1,8 +1,7 @@
-# manifests/extensions/pgsql.pp
-
+# manage pgsql extension
 class php::extensions::pgsql {
-    php::package{'pgsql':
-        mode => 'direct',
-    }
+  php::package{'pgsql':
+    mode => 'direct',
+  }
 }
 

@@ -1,8 +1,7 @@
-# manifests/extensions/mysql.pp
-
+# manage mysql extension
 class php::extensions::mysql {
-    php::package{'mysql':
-        mode => 'direct',
-    }
+  php::package{'mysql':
+    mode => 'direct',
+  }
 }
 

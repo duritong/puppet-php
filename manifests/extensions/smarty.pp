@@ -1,8 +1,7 @@
-# manifests/extensions/smarty.pp
-
+# manage smarty extension
 class php::extensions::smarty {
-    php::package{'Smarty':
-        mode => 'direct',
-    }
+  php::package{'Smarty':
+    mode => 'direct',
+  }
 }
 

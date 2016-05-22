@@ -1,8 +1,7 @@
-# manifests/packages/idn.pp
-
+# manage idn extension
 class php::packages::idn {
-    package{'php-idn': 
-        ensure => installed,
-        notify => Service['apache'],
-    }
+  package{'php-idn': 
+    ensure => installed,
+    notify => Service['apache'],
+  }
 }

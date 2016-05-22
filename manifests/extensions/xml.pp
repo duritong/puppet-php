@@ -1,8 +1,7 @@
-# manifests/extensions/xml.pp
-
+# xml extension
 class php::extensions::xml {
-    php::package{'xml':
-        mode => 'direct',
-    }
+  php::package{'xml':
+    mode => 'direct',
+  }
 }
 

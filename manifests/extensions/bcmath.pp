@@ -1,8 +1,7 @@
-# manifests/extensions/bcmath.pp
-
+# manage bcmath
 class php::extensions::bcmath {
-    php::package{'bcmath':
-        mode => 'direct',
-    }
+  php::package{'bcmath':
+    mode => 'direct',
+  }
 }
 

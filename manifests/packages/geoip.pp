@@ -1,10 +1,6 @@
-# manifests/packages/geoip.pp
-
+# manage geoip extension
 class php::packages::geoip {
-
-    include geoip::devel
-
-    php::pecl{'geoip': 
-        mode => 'cli', 
-    }
+  php::pecl{'geoip': 
+    mode => 'cli', 
+  }
 }

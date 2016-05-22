@@ -1,8 +1,7 @@
-# manifests/extensions/imap.pp
-
+# manage imap extension
 class php::extensions::imap {
-    php::package{'imap':
-        mode => 'direct',
-    }
+  php::package{'imap':
+    mode => 'direct',
+  }
 }
 
