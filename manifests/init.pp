@@ -6,11 +6,12 @@
 # Simon Josi josi+puppet(at)puzzle.ch
 # See LICENSE for the full license granted to you.
 class php(
-  $cluster_node = '',
-  $timezone     = 'Europe/Berlin',
-) {
-  case $::operatingsystem {
-    'CentOS': { include php::centos }
-    default: { include php::base }
-  }
+  $settings                 = {},
+  $timezone                 = $php::params::timezone,
+  $security_settings        = $php::params::security_settings,
+  $suhosin_settings         = $php::params::suhosin_settings,
+  $suhosin_default_settings = $php::params::suhosin_default_settings,
+  $suhosin_cryptkey         = $php::params::suhosin_cryptkey,
+) inherits php::params {
+  include ::php::base
 }

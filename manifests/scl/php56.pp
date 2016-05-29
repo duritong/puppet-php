@@ -1,13 +1,13 @@
-# manage an scl php55 installation
-class php::scl::php54(
+# manage an scl php56 installation
+class php::scl::php56(
   $timezone         = $php::scl::params::timezone,
   $settings         = $php::scl::params::settings,
   $suhosin_cryptkey = $php::scl::params::suhosin_cryptkey,
   $suhosin_settings = $php::scl::params::suhosin_settings,
 ) inherits php::scl::params {
-  $basedir = '/opt/rh/php54'
-  $etcdir  = "${basedir}/root/etc"
-  php::scl::phpx{'54':
+  $basedir = '/opt/rh/rh-php56'
+  $etcdir  = '/etc/opt/rh/rh-php56'
+  php::scl::phpx{'56':
     etcdir           => $etcdir,
     timezone         => $timezone,
     settings         => $settings,
