@@ -14,6 +14,7 @@ define php::scl::phpx(
       content => "date.timezone = '${timezone}'\n",
       require => Class["scl::php${name}"],
       notify  => Service['apache'],
+      seltype => 'etc_t',
       owner   => root,
       group   => 0,
       mode    => '0644';
