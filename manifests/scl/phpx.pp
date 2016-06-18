@@ -24,7 +24,7 @@ define php::scl::phpx(
                     $php::params::global_settings),$settings)
   $defaults = {
     path    => "${etcdir}/php.ini",
-    require => Class["scl::php${name}"],
+    require => Class["::scl::php${name}"],
     notify  => Service['apache'],
   }
   create_ini_settings($php_settings,$defaults)
@@ -42,7 +42,7 @@ define php::scl::phpx(
                               $default_suhosin_settings)
   $suhosin_defaults = {
     path    => "${etcdir}/php.d/suhosin.ini",
-    require => Class["scl::php${name}"],
+    require => Class["::scl::php${name}"],
     notify  => Service['apache'],
   }
   create_ini_settings({'' => $php_suhosin_settings},$suhosin_defaults)
