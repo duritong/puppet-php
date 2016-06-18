@@ -1,6 +1,7 @@
 # some default params for php
 class php::params(
   $global_settings          = {},
+  $timezone                 = 'Europe/Berlin',
   # following https://github.com/sektioneins/pcc
   # and https://www.owasp.org/index.php/PHP_Configuration_Cheat_Sheet
   $security_settings        = {
