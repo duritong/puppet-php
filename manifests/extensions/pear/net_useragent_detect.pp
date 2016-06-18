@@ -1,6 +1,6 @@
 # the Net_UserAgent_Detect package
 class php::extensions::pear::net_useragent_detect {
-  if versioncmp($::operatingsystemmajrelease,'6') > 0 {
+  if versioncmp($::operatingsystemmajrelease,'5') > 0 {
     package{'php-pear-Net-UserAgent-Detect':
       ensure => installed,
     }
