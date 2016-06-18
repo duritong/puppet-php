@@ -12,7 +12,7 @@ define php::scl::phpx(
   file{
     "${etcdir}/php.d/timezone.ini":
       content => "date.timezone = '${timezone}'\n",
-      require => Class["scl::php${name}"],
+      require => Class["::scl::php${name}"],
       notify  => Service['apache'],
       seltype => 'etc_t',
       owner   => root,
