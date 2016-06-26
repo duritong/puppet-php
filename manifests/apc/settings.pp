@@ -1,6 +1,6 @@
 # an abstracted way of setting the same options for all
 define php::apc::settings(){
-  include ::php::apc::base
+  require ::php::apc::base
   augeas{"apc_settings_${name}":
     context => "/files${name}/.anon",
     changes => [
@@ -11,5 +11,6 @@ define php::apc::settings(){
       # partially because of http://lists.horde.org/archives/horde/Week-of-Mon-20140414/051263.html
       'set apc.enable_cli 1',
     ],
+    require => File[$php::apc::base::dir],
   }
 }
