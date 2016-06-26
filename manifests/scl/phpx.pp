@@ -46,4 +46,5 @@ define php::scl::phpx(
     notify  => Service['apache'],
   }
   create_ini_settings({'' => $php_suhosin_settings},$suhosin_defaults)
+  php::apc::settings{"${etcdir}/php.d/apcu.ini": }
 }
