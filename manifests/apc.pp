@@ -1,6 +1,12 @@
 # manage apc package
 class php::apc {
-  package{'php-pecl-apc':
-    ensure => installed,
+  if versioncmp($::operatingsystemmajrelease,'5') > 0 {
+    package{'php-pecl-apcu':
+      ensure => installed,
+    }
+  } else {
+    package{'php-pecl-apc':
+      ensure => installed,
+    }
   }
 }

@@ -9,6 +9,11 @@ class php::extensions::common {
       'mhash':
         mode => 'direct';
     }
+  } else {
+    php::package{
+      'intl':
+        mode => 'direct';
+    }
   }
   include ::php::pear::common
 }

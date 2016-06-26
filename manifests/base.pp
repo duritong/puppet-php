@@ -47,9 +47,8 @@ class php::base {
 
   if versioncmp($::operatingsystemmajrelease,'6') > 0 {
     include ::php::extensions::pecl::opcache
-  } else {
-    include ::php::apc
   }
+  include ::php::apc
   if versioncmp($::operatingsystemmajrelease,'5') > 0 {
     yum::repo{
       "remi-morephp":
