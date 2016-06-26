@@ -8,4 +8,18 @@ class php::apc::base(
     gropup => 0,
     mode   => '1777',
   }
+  if str2bool($::selinux) {
+    $seltype = $::operatingsystemmajrelease ? {
+      '5'     => 'httpd_sys_script_rw_t',
+      default => 'httpd_sys_rw_content_t'
+    }
+    File[$dir]{
+      seltype => $seltype
+    }
+    selinux::fcontext{
+      "${dir}(/.*)?":
+        setype  => $seltype,
+        before  => File[$dir];
+    } -> Service<| title == 'apache' |>
+  }
 }
