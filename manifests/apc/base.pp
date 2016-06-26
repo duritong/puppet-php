@@ -5,7 +5,7 @@ class php::apc::base(
   Package<| title == 'apache' |> -> file{$dir:
     ensure => directory,
     owner  => root,
-    gropup => 0,
+    group   => 0,
     mode   => '1777',
   }
   if str2bool($::selinux) {
