@@ -1,8 +1,10 @@
 # some default params for php
 class php::params(
   $global_settings          = {
-    upload_max_filesize => '20M',
-    post_max_size       => '22M',
+    'PHP' => {
+      upload_max_filesize => '20M',
+      post_max_size       => '22M',
+    },
   },
   $timezone                 = 'Europe/Berlin',
   # following https://github.com/sektioneins/pcc
