@@ -24,6 +24,7 @@ class php::params(
       'mail.add_x_header' => 'Off',
     },
   },
+  $suhosin_settings = {},
   $suhosin_default_settings = {
     'suhosin.cookie.encrypt'                 => 'On',
     'suhosin.get.disallow_ws'                => 'On',
