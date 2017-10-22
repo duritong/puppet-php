@@ -10,7 +10,7 @@ define php::install(
   $target_mode = 'absent'
 ){
   require ::php::pear::common::cli
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       # this is here as a blocker to enforce common best practices
       if versioncmp($::operatingsystemmajrelease,'6') > 0 {
@@ -65,7 +65,7 @@ define php::install(
     }
     default: { fail("no such ensure: ${ensure} for php::install") }
   }
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       Exec["php_${mode}_${name}"]{
         require => [ Package['php'], Package['php-common'] ],

@@ -9,7 +9,7 @@ define php::package(
     ensure  => $ensure,
     require => Package['php'],
   }
-  if $::osfamily == 'RedHat' {
+  if $facts['os']['family'] == 'RedHat' {
     if $mode == 'direct' {
       Package["php${phpversion}-${name}"]{
         name => "php${phpversion}-${name}",
