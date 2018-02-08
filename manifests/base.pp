@@ -49,15 +49,4 @@ class php::base {
     include ::php::extensions::pecl::opcache
   }
   include ::php::apc
-  if versioncmp($::operatingsystemmajrelease,'5') > 0 {
-    yum::repo{
-      "remi-morephp":
-        descr    => "Copr repo for morephp owned by remi",
-        baseurl  => "https://copr-be.cloud.fedoraproject.org/results/remi/morephp/epel-${::operatingsystemmajrelease}-\$basearch/",
-        gpgkey   => 'https://copr-be.cloud.fedoraproject.org/results/remi/morephp/pubkey.gpg',
-        enabled  => 1,
-        gpgcheck => 1,
-        before   => Package['php'],
-    }
-  }
 }
