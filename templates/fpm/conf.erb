@@ -1,0 +1,30 @@
+[global]
+pid = /run/fpm-<%= @name %>/pid
+error_log = <%= @logdir %>/fpm-error.log
+daemonize = no
+
+[<%= @name %>-0]
+listen = /run/fpm-<%= @name %>/0.socket
+pm = ondemand
+pm.max_children = 10
+slowlog = <%= @logdir %>/fpm-slow-0.log
+
+env[TMP] = <%= @tmpdir %>
+env[TMPDIR] = <%= @tmpdir %>
+env[TEMP] = <%= @tmpdir %>
+<%= @additional_envs.empty? ? "\n" : @additional_envs.reject{|k,v| (v == :undef) || v.nil? }.keys.sort.collect { |k| "env[#{k}] = #{@additional_envs[k]}" }.join("\n") %>
+<%= @php_settings.reject{|k,v| (v == :undef) || v.nil? }.keys.sort.collect { |flag|
+  dvalue = @php_settings[flag].to_s.downcase
+  munged_value = if dvalue == 'true'
+    'on'
+  elsif dvalue == 'false'
+    'off'
+  elsif ['on','off'].include?(dvalue)
+    dvalue
+  else
+    @php_settings[flag]
+  end
+
+  f = ['on','off'].include?(munged_value) ? 'flag' : 'value'
+  "php_admin_#{f}[#{flag}] = #{munged_value}"
+}.join("\n") %>

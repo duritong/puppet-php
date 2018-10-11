@@ -1,12 +1,20 @@
 # setup php
 class php::base {
-  package{'php':
+  package{['php','php-fpm']:
     ensure  => present,
     require => Package['apache'],
   } -> file{
     '/etc/php.d/timezone.ini':
       content => "date.timezone = '${php::timezone}'\n",
       notify  => Service['apache'],
+      owner   => root,
+      group   => 0,
+      mode    => '0644';
+    '/etc/php-fpm.d':
+      ensure  => directory,
+      purge   => true,
+      recurse => true,
+      force   => true,
       owner   => root,
       group   => 0,
       mode    => '0644';

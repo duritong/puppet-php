@@ -1,0 +1,8 @@
+[Socket]
+ListenStream=/run/fpm-<%= @name %>/0.socket
+SocketUser=<%= @run_user %>
+SocketGroup=<%= @run_group %>
+SocketMode=0660
+
+[Install]
+WantedBy=sockets.target

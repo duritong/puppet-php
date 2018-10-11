@@ -1,0 +1,14 @@
+[Unit]
+Description=<%= @name %>'s FastCGI Process Manager
+After=syslog.target network.target
+
+[Service]
+ExecStart=/usr/bin/scl enable <%= @scl_name %> -- <%= @binary %> --fpm-config=<%= @etcdir %>/php-fpm.d/<%= @name %>.conf
+WorkingDirectory=<%= @workdir %>
+User=<%= @run_user %>
+Group=<%= @run_group %>
+Environment="FPM_SOCKETS=/run/fpm-<%= @name %>/0.socket=3"
+RuntimeDirectory=fpm-<%= @name %>
+PrivateTmp=true
+SyslogIdentifier=fpm-<%= @name %>
+

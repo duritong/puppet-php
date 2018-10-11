@@ -29,22 +29,34 @@ define php::scl::phpx(
   }
   create_ini_settings($php_settings,$defaults)
 
-  if $suhosin_cryptkey {
-    $default_suhosin_settings = {
-      'suhosin.session.cryptkey' => sha1("${suhosin_cryptkey}_session_${name}"),
-      'suhosin.cookie.cryptkey'  => sha1("${suhosin_cryptkey}_cookie_${name}"),
+  if $suhosin_settings {
+    if $suhosin_cryptkey {
+      $default_suhosin_settings = {
+        'suhosin.session.cryptkey' => sha1("${suhosin_cryptkey}_session_${name}"),
+        'suhosin.cookie.cryptkey'  => sha1("${suhosin_cryptkey}_cookie_${name}"),
+      }
+    } else {
+      $default_suhosin_settings = {}
     }
-  } else {
-    $default_suhosin_settings = {}
+    $php_suhosin_settings = merge(merge($suhosin_settings,
+                                      $php::params::suhosin_default_settings),
+                                $default_suhosin_settings)
+    $suhosin_defaults = {
+      path    => "${etcdir}/php.d/suhosin.ini",
+      require => Class["::scl::php${name}"],
+      notify  => Service['apache'],
+    }
+    create_ini_settings({'' => $php_suhosin_settings},$suhosin_defaults)
   }
-  $php_suhosin_settings = merge(merge($suhosin_settings,
-                                    $php::params::suhosin_default_settings),
-                              $default_suhosin_settings)
-  $suhosin_defaults = {
-    path    => "${etcdir}/php.d/suhosin.ini",
-    require => Class["::scl::php${name}"],
-    notify  => Service['apache'],
-  }
-  create_ini_settings({'' => $php_suhosin_settings},$suhosin_defaults)
   php::apc::settings{"${etcdir}/php.d/apcu.ini": }
+  file{
+    "${etcdir}/php-fpm.d":
+      ensure  => directory,
+      purge   => true,
+      recurse => true,
+      force   => true,
+      owner   => root,
+      group   => 0,
+      mode    => '0644',
+  }
 }
