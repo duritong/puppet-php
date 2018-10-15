@@ -2,11 +2,12 @@
 # this should do everything you need
 # for an scl installation
 define php::scl::phpx(
-  $etcdir           = "/opt/rh/php${name}/root/etc",
-  $timezone         = 'Europe/Berlin',
-  $settings         = {},
-  $suhosin_cryptkey = undef,
-  $suhosin_settings = {}
+  $etcdir            = "/opt/rh/php${name}/root/etc",
+  $timezone          = 'Europe/Berlin',
+  $settings          = {},
+  $suhosin_cryptkey  = undef,
+  $suhosin_settings  = {},
+  $apc_config_preifx = '40-',
 ) {
   require "::scl::php${name}"
   file{
@@ -48,7 +49,7 @@ define php::scl::phpx(
     }
     create_ini_settings({'' => $php_suhosin_settings},$suhosin_defaults)
   }
-  php::apc::settings{"${etcdir}/php.d/apcu.ini": }
+  php::apc::settings{"${etcdir}/php.d/${apc_config_preifx}apcu.ini": }
   file{
     "${etcdir}/php-fpm.d":
       ensure  => directory,

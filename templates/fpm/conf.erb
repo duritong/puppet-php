@@ -4,7 +4,7 @@ error_log = <%= @logdir %>/fpm-error.log
 daemonize = no
 
 [<%= @name %>-0]
-listen = /run/fpm-<%= @name %>/0.socket
+listen = /run/fpm-<%= @name %>-socket/0.socket
 pm = ondemand
 pm.max_children = 10
 slowlog = <%= @logdir %>/fpm-slow-0.log

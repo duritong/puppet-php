@@ -11,7 +11,7 @@ define php::snuffleupagus::base(
       owner   => root,
       group   => 0,
       mode    => '0644';
-    "${etcdir}/snuffleupagus.d/snuffleupagus-base.rules":
+    "${etcdir}/snuffleupagus.d/base.rules":
       source => 'puppet:///modules/php/snuffleupagus/base.rules',
       ensure  => directory,
       owner   => root,

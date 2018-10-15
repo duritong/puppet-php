@@ -3,12 +3,39 @@ Description=<%= @name %>'s FastCGI Process Manager
 After=syslog.target network.target
 
 [Service]
+<% if @scl_name -%>
 ExecStart=/usr/bin/scl enable <%= @scl_name %> -- <%= @binary %> --fpm-config=<%= @etcdir %>/php-fpm.d/<%= @name %>.conf
+<% else -%>
+ExecStart=<%= @binary %> --fpm-config=<%= @etcdir %>/php-fpm.d/<%= @name %>.conf
+<% end -%>
 WorkingDirectory=<%= @workdir %>
 User=<%= @run_user %>
 Group=<%= @run_group %>
-Environment="FPM_SOCKETS=/run/fpm-<%= @name %>/0.socket=3"
+Environment="FPM_SOCKETS=/run/fpm-<%= @name %>-socket/0.socket=3"
 RuntimeDirectory=fpm-<%= @name %>
-PrivateTmp=true
 SyslogIdentifier=fpm-<%= @name %>
-
+# security settings
+PrivateTmp=true
+NoNewPrivileges=true
+ProtectSystem=full
+# to be migrated once in EL7
+# ProtectSystem=strict
+ReadOnlyDirectories=/
+InaccessibleDirectories=/home
+ReadWriteDirectories=<%= @workdir %>
+ReadWriteDirectories=/run/fpm-<%= @name %>-socket
+ReadWriteDirectories=/run/fpm-<%= @name %>
+<% (@writable_dirs - [@workdir, @logdir, "/run/fpm-#{@name}-socket", "/run/fpm-#{@name}" ]).each do |d| -%>
+ReadWriteDirectories=<%= d %>
+<% end
+unless @logdir.start_with?("#{@workdir}/") -%>
+ReadWriteDirectories=<%= @logdir %>
+<% end -%>
+ProtectHome=true
+PrivateDevices=true
+# not yet available
+# to be migrated once in EL7
+#PrivateUsers=true
+#ProtectKernelTunables=true
+#ProtectKernelModules=true
+#ProtectControlGroups=yes

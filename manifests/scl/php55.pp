@@ -7,11 +7,13 @@ class php::scl::php55(
 ) inherits php::scl::params {
   $basedir = '/opt/rh/php55'
   $etcdir  = "${basedir}/root/etc"
+  $scl_name = 'php55'
   php::scl::phpx{'55':
-    etcdir           => $etcdir,
-    timezone         => $timezone,
-    settings         => $settings,
-    suhosin_cryptkey => $suhosin_cryptkey,
-    suhosin_settings => $suhosin_settings,
+    etcdir            => $etcdir,
+    timezone          => $timezone,
+    settings          => $settings,
+    suhosin_cryptkey  => $suhosin_cryptkey,
+    suhosin_settings  => $suhosin_settings,
+    apc_config_preifx => '',
   }
 }

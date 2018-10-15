@@ -1,5 +1,5 @@
-# fcgid on centos
-class php::mod_fcgid::centos {
+# make sure we disable mod_php
+class php::disable_mod_php {
   # overwrite standard file for mod_php
   # which is obsolete here, but we want
   # to keep the file so an update of the

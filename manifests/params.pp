@@ -23,6 +23,9 @@ class php::params(
     'mail function' => {
       'mail.add_x_header' => 'Off',
     },
+    'Session' => {
+      'session.use_strict_mode' => 'On',
+    },
   },
   $suhosin_settings = {},
   $suhosin_default_settings = {
@@ -32,7 +35,6 @@ class php::params(
     'suhosin.disable.display_errors'         => 'On',
     'suhosin.executor.include.max_traversal' => '5',
     'suhosin.executor.disable_emodifier'     => 'On',
-    'session.use_strict_mode'                => 'On',
   },
   $suhosin_cryptkey         = undef,
 ) {

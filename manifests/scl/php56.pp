@@ -7,6 +7,7 @@ class php::scl::php56(
 ) inherits php::scl::params {
   $basedir = '/opt/rh/rh-php56'
   $etcdir  = '/etc/opt/rh/rh-php56'
+  $scl_name = 'rh-php56'
   php::scl::phpx{'56':
     etcdir           => $etcdir,
     timezone         => $timezone,
