@@ -11,10 +11,8 @@ class php::fpm::base {
       source => 'puppet:///modules/php/fpm/kill-pool.service',
   } -> systemd::unit_file{
     'fpm-kill-pool.timer':
-      content => content('php/fpm/fpm-kill-pool.timer.erb'),
-  } ~> service{
-    'fpm-kill-pool.timer':
-      ensure => running,
-      enable => true,
+      content => template('php/fpm/fpm-kill-pool.timer.erb'),
+      enable  => true,
+      active  => true,
   }
 }
