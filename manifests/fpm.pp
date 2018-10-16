@@ -43,6 +43,7 @@ define php::fpm(
   } ~> Exec['systemctl-daemon-reload']
 
   if $ensure == 'present' {
+    include ::php::fpm::base
     File[ "${etcdir}/php-fpm.d/${name}.conf"]{
       group => $run_group,
     }

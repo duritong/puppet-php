@@ -1,0 +1,9 @@
+[Unit]
+Description=Kill fpm pools not serving requests
+
+[Service]
+ExecStart=/usr/local/sbin/fpm-kill-pool.sh
+
+[Install]
+WantedBy=default.target
+
