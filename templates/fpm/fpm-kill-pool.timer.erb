@@ -1,0 +1,9 @@
+[Unit]
+Description=Kill fpm units without children
+
+[Timer]
+OnCalendar=<%= @on_calendar %>
+
+[Install]
+WantedBy=timers.target
+

@@ -1,5 +1,7 @@
 # fpm base stuff
-class php::fpm::base {
+class php::fpm::base(
+  String $on_calendar = '*:0/5',
+) {
   file{
     '/usr/local/sbin/fpm-kill-pool.sh':
       source => 'puppet:///modules/php/fpm/kill-pool.sh',
