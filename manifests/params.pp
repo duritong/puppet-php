@@ -35,6 +35,7 @@ class php::params(
     'suhosin.disable.display_errors'         => 'On',
     'suhosin.executor.include.max_traversal' => '5',
     'suhosin.executor.disable_emodifier'     => 'On',
+    'suhosin.executor.include.whitelist'     => 'phar',
   },
   $suhosin_cryptkey         = undef,
 ) {
