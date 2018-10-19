@@ -1,6 +1,6 @@
 # fpm base stuff
 class php::fpm::base(
-  String $on_calendar = '*:0/5',
+  String $on_calendar = '*:0/30',
 ) {
   file{
     '/usr/local/sbin/fpm-kill-pool.sh':
