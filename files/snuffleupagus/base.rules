@@ -16,6 +16,8 @@ sp.disable_function.function("putenv").param("setting").value_r("LD_").drop()
 
 ##Prevent various `include`-related vulnerabilities
 sp.disable_function.function("require_once").value_r("\.php$").allow();
+# wordpress requires .svg
+sp.disable_function.function("require_once").value_r("\.svg$").allow();
 sp.disable_function.function("include_once").value_r("\.php$").allow();
 sp.disable_function.function("require").value_r("\.php$").allow();
 sp.disable_function.function("include").value_r("\.php$").allow();
