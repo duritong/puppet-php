@@ -5,8 +5,9 @@ daemonize = no
 
 [<%= @name %>-0]
 listen = /run/fpm-<%= @name %>-socket/0.socket
-pm = ondemand
-pm.max_children = 10
+<% @real_fpm_settings.keys.sort.each do |k| -%>
+<%= k %> = <%= @real_fpm_settings[v] %>
+<% end -%>
 slowlog = <%= @logdir %>/fpm-slow-0.log
 
 env[TMP] = <%= @tmpdir %>

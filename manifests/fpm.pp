@@ -7,6 +7,7 @@ define php::fpm(
   Stdlib::Compat::Absolute_Path   $tmpdir          = "/var/www/vhosts/${name}/tmp/tmp",
   Hash                            $additional_envs = {},
   Hash                            $php_settings    = {},
+  Hash                            $fpm_settings    = {},
   String                          $run_user        = "${name}_run",
   String                          $run_group       = $name,
   Array[Stdlib::Compat::Absolute_Path]
@@ -44,6 +45,7 @@ define php::fpm(
 
   if $ensure == 'present' {
     include ::php::fpm::base
+    $real_fpm_settings = $php::fpm::base::settings + $fpm_settings
     File[ "${etcdir}/php-fpm.d/${name}.conf"]{
       group => $run_group,
     }

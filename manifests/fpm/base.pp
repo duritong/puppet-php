@@ -1,6 +1,11 @@
 # fpm base stuff
 class php::fpm::base(
   String $on_calendar = '*:0/30',
+  Hash  $settings     = {
+    'pm'                      => 'ondemand',
+    'pm.max_children'         => '10',
+    'pm.process_idle_timeout' => '30s',
+  },
 ) {
   file{
     '/usr/local/sbin/fpm-kill-pool.sh':
