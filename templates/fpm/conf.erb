@@ -6,7 +6,7 @@ daemonize = no
 [<%= @name %>-0]
 listen = /run/fpm-<%= @name %>-socket/0.socket
 <% @real_fpm_settings.keys.sort.each do |k| -%>
-<%= k %> = <%= @real_fpm_settings[v] %>
+<%= k %> = <%= @real_fpm_settings[k] %>
 <% end -%>
 slowlog = <%= @logdir %>/fpm-slow-0.log
 
