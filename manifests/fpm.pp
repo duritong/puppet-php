@@ -28,7 +28,7 @@ define php::fpm(
     $basedir = '/'
     $scl_name = false
     $php_name = 'php'
-    $binary = "/usr/sbin/php-fpm"
+    $binary = '/usr/sbin/php-fpm'
   }
   service{
     [ "fpm-${name}.socket",
