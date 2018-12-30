@@ -1,18 +1,18 @@
-# manage an scl php72 installation
+# manage an scl php73 installation
 class php::scl::php72(
   $timezone         = $php::scl::params::timezone,
   $settings         = $php::scl::params::settings,
 ) inherits php::scl::params {
-  $basedir  = '/opt/remi/php72'
-  $etcdir   = '/etc/opt/remi/php72'
-  $scl_name = 'php72'
-  php::scl::phpx{'72':
+  $basedir  = '/opt/remi/php73'
+  $etcdir   = '/etc/opt/remi/php73'
+  $scl_name = 'php73'
+  php::scl::phpx{'73':
     etcdir           => $etcdir,
     timezone         => $timezone,
     settings         => $settings,
     suhosin_settings => false, # gone with >= php7
   } -> php::snuffleupagus::base{
-    '72':
+    '73':
       etcdir => $etcdir,
   }
 }
