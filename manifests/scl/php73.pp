@@ -1,5 +1,5 @@
 # manage an scl php73 installation
-class php::scl::php72(
+class php::scl::php73(
   $timezone         = $php::scl::params::timezone,
   $settings         = $php::scl::params::settings,
 ) inherits php::scl::params {
