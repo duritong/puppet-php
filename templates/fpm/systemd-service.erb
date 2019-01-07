@@ -16,7 +16,9 @@ RuntimeDirectory=fpm-<%= @name %>
 SyslogIdentifier=fpm-<%= @name %>
 # security settings
 PrivateTmp=true
+<% if @systemd_options['no_new_privileges'] -%>
 NoNewPrivileges=true
+<% end -%>
 ProtectSystem=full
 # to be migrated once in EL7
 # ProtectSystem=strict

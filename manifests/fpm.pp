@@ -8,6 +8,7 @@ define php::fpm(
   Hash                            $additional_envs = {},
   Hash                            $php_settings    = {},
   Hash                            $fpm_settings    = {},
+  Hash                            $systemd_options = {},
   String                          $run_user        = "${name}_run",
   String                          $run_group       = $name,
   Array[Stdlib::Compat::Absolute_Path]
