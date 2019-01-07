@@ -27,6 +27,7 @@ InaccessibleDirectories=/home
 ReadWriteDirectories=<%= @workdir %>
 ReadWriteDirectories=/run/fpm-<%= @name %>-socket
 ReadWriteDirectories=/run/fpm-<%= @name %>
+ReadWriteDirectories=/var/spool
 <% (@writable_dirs - [@workdir, @logdir, "/run/fpm-#{@name}-socket", "/run/fpm-#{@name}" ]).each do |d| -%>
 ReadWriteDirectories=<%= d %>
 <% end
