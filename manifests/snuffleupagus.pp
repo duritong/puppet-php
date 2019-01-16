@@ -2,10 +2,9 @@
 define php::snuffleupagus(
   String                        $group,
   Stdlib::Compat::Absolute_Path $etcdir,
-  Hash[String,{
-    content => String[1],
-    order   => String[3,3],
-  }]                            $rules = {},
+  Hash[
+    Pattern[/\A[0-9]{3}\-\w+/, String[1]]
+  ]                             $rules = {},
   Array[String]                 $ignore_rules = [],
 ) {
   include php::snuffleupagus::global
