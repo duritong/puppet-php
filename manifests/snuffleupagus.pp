@@ -3,7 +3,7 @@ define php::snuffleupagus(
   String                        $group,
   Stdlib::Compat::Absolute_Path $etcdir,
   Hash[
-    Pattern[/\A[0-9]{3}\-\w+/, String[1]]
+    Pattern[/\A[0-9]{3}\-\w+/], String[1]
   ]                             $rules = {},
   Array[String]                 $ignore_rules = [],
 ) {

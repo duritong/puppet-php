@@ -1,6 +1,6 @@
 class php::snuffleupagus::global(
   Hash[
-    Pattern[/\A[0-9]{3}\-\w+/, String[1]]
+    Pattern[/\A[0-9]{3}\-\w+/], String[1]
   ] $base_rules = {},
 ){
   # based on https://snuffleupagus.readthedocs.io/config.html#miscellaneous-examples
