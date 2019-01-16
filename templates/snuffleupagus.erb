@@ -1,0 +1,5 @@
+<% @target_rules.keys.sort.each do |k|
+  unless @ignore_rules.include?(k) -%>
+<%= @target_rules[k] %>
+<% end
+end -%>
