@@ -13,9 +13,13 @@ sp.disable_function.function("putenv").param("setting").value_r("LD_").drop();',
 sp.disable_function.function("require_once").value_r("\.php$").allow();
 # wordpress requires .svg
 sp.disable_function.function("require_once").value_r("\.svg$").allow();
+# drupal requires .inc
+sp.disable_function.function("require_once").value_r("\.inc$").allow();
 sp.disable_function.function("include_once").value_r("\.php$").allow();
 sp.disable_function.function("require").value_r("\.php$").allow();
 sp.disable_function.function("include").value_r("\.php$").allow();
+sp.disable_function.function("require").value_r("\.inc$").allow();
+sp.disable_function.function("include").value_r("\.inc$").allow();
 sp.disable_function.function("require_once").drop();
 sp.disable_function.function("include_once").drop();',
     '040-system'          => '# Prevent `system`-related injections
