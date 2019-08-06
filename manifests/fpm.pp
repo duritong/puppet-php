@@ -34,6 +34,15 @@ define php::fpm(
   service{
     [ "fpm-${name}.socket",
       "fpm-${name}" ]:;
+  } -> logrotate::rule{
+    "fpm-error-logs-${name}":
+      path         => '/var/www/vhosts/*/logs/fpm-error.log',
+      compress     => true,
+      copytruncate => true,
+      dateext      => true,
+      su           => true,
+      su_user      => $run_user,
+      su_group     => $run_group,
   }
   file{
     [ "${etcdir}/php-fpm.d/${name}.conf",
@@ -72,6 +81,9 @@ define php::fpm(
       tag    => "systemd-${php_name}-fpm"
     } -> Service<| title == 'apache' |>
   } else {
+    Logrotate::Rule["fpm-error-logs-${name}"]{
+      ensure => absent,
+    }
     Service["fpm-${name}"]{
       ensure => stopped,
       enable => false,

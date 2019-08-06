@@ -21,11 +21,5 @@ class php::fpm::base(
       content => template('php/fpm/fpm-kill-pool.timer.erb'),
       enable  => true,
       active  => true,
-  } -> logrotate::rule{
-    'fpm-error-logs':
-      path         => '/var/www/vhosts/*/logs/fpm-error.log',
-      compress     => true,
-      copytruncate => true,
-      dateext      => true,
   }
 }
