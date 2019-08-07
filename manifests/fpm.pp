@@ -36,7 +36,7 @@ define php::fpm(
       "fpm-${name}" ]:;
   } -> logrotate::rule{
     "fpm-error-logs-${name}":
-      path         => '/var/www/vhosts/*/logs/fpm-error.log',
+      path         => "${logdir}/fpm-error.log",
       compress     => true,
       copytruncate => true,
       dateext      => true,
