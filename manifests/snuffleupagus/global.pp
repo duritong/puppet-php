@@ -6,7 +6,7 @@ class php::snuffleupagus::global(
   # based on https://snuffleupagus.readthedocs.io/config.html#miscellaneous-examples
   $rules = {
     '010-mail-add-params' => '# Prevent various `mail`-related vulnerabilities
-sp.disable_function.function("mail").param("additional_parameters").value_r("\\\\-").drop();',
+sp.disable_function.function("mail").param("additional_parameters").value_r("(?!^\\\\-f[a-zA-Z@.-_+]+$)\\\\-").drop();',
     '020-putenv'          => '# Since it\'s now burned, me might as well mitigate it publicly
 sp.disable_function.function("putenv").param("setting").value_r("LD_").drop();',
     '030-includes'        => '##Prevent various `include`-related vulnerabilities
