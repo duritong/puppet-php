@@ -51,21 +51,20 @@ define php::fpm(
       "/etc/systemd/system/fpm-${name}.service",
     ]:
       owner => root,
-      mode  => '0640',
   } ~> Exec['systemctl-daemon-reload']
 
   if $ensure == 'present' {
     include ::php::fpm::base
     $real_fpm_settings = $php::fpm::base::settings + $fpm_settings
     File[ "${etcdir}/php-fpm.d/${name}.conf"]{
-      group => $run_group,
+      content => template('php/fpm/conf.erb'),
+      group   => $run_group,
+      mode    => '0640',
     }
     File["/etc/systemd/system/fpm-${name}.socket",
       "/etc/systemd/system/fpm-${name}.service"]{
         group => 0,
-    }
-    File[ "${etcdir}/php-fpm.d/${name}.conf"]{
-      content => template('php/fpm/conf.erb'),
+        mode  => '0644',
     }
     File["/etc/systemd/system/fpm-${name}.socket"]{
       content => template('php/fpm/systemd-socket.erb'),
