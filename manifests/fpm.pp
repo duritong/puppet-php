@@ -15,8 +15,8 @@ define php::fpm(
                                   $writable_dirs   = [],
 ){
 
-  include ::systemd::systemctl::daemon_reload
-  include ::php::disable_mod_php
+  include systemd::systemctl::daemon_reload
+  include php::disable_mod_php
   if $php_inst_class {
     require "::php::scl::${php_inst_class}"
     $etcdir = getvar("php::scl::${php_inst_class}::etcdir")
@@ -54,7 +54,7 @@ define php::fpm(
   } ~> Exec['systemctl-daemon-reload']
 
   if $ensure == 'present' {
-    include ::php::fpm::base
+    include php::fpm::base
     $real_fpm_settings = $php::fpm::base::settings + $fpm_settings
     File[ "${etcdir}/php-fpm.d/${name}.conf"]{
       content => template('php/fpm/conf.erb'),
@@ -78,8 +78,10 @@ define php::fpm(
       ensure => 'running',
       enable => true,
     } ~> Service["fpm-${name}"]{
-      tag    => "systemd-${php_name}-fpm"
+      tag => "systemd-${php_name}-fpm"
     } -> Service<| title == 'apache' |>
+    User<| title == $run_user |> -> Service["fpm-${name}.socket"]
+    Group<| title == $run_group |> -> Service["fpm-${name}.socket"]
   } else {
     Logrotate::Rule["fpm-error-logs-${name}"]{
       ensure => absent,
@@ -95,5 +97,8 @@ define php::fpm(
       "/etc/systemd/system/fpm-${name}.service"] {
       ensure => absent,
     }
+
+    Service["fpm-${name}.socket"] -> User<| title == $run_user |>
+    Service["fpm-${name}.socket"] -> Group<| title == $run_group |>
   }
 }
