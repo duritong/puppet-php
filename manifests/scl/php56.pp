@@ -5,9 +5,9 @@ class php::scl::php56(
   $suhosin_cryptkey = $php::scl::params::suhosin_cryptkey,
   $suhosin_settings = $php::scl::params::suhosin_settings,
 ) inherits php::scl::params {
-  $basedir = '/opt/rh/rh-php56'
-  $etcdir  = '/etc/opt/rh/rh-php56'
-  $scl_name = 'rh-php56'
+  $basedir = '/opt/remi/php56'
+  $etcdir  = '/etc/opt/remi/php56'
+  $scl_name = 'php56'
   php::scl::phpx{'56':
     etcdir           => $etcdir,
     timezone         => $timezone,

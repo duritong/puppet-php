@@ -2,7 +2,7 @@
 # this should do everything you need
 # for an scl installation
 define php::scl::phpx(
-  $etcdir            = "/opt/rh/php${name}/root/etc",
+  $etcdir            = "/opt/remi/php${name}/root/etc",
   $timezone          = 'Europe/Berlin',
   $settings          = {},
   $suhosin_cryptkey  = undef,
@@ -44,7 +44,7 @@ define php::scl::phpx(
                                 $default_suhosin_settings)
     $suhosin_defaults = {
       path    => "${etcdir}/php.d/suhosin.ini",
-      require => Class["::scl::php${name}"],
+      require => Class["scl::php${name}"],
       notify  => Service['apache'],
     }
     create_ini_settings({'' => $php_suhosin_settings},$suhosin_defaults)
