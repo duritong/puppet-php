@@ -1,6 +1,6 @@
 # install composer
 class php::composer {
-  package{'php-composer':
+  package{'composer':
     ensure => installed,
   }
 }
