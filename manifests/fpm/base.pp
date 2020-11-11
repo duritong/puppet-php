@@ -6,6 +6,7 @@ class php::fpm::base(
     'pm.max_children'         => '10',
     'pm.process_idle_timeout' => '30s',
   },
+  Boolean $use_munin  = false,
 ) {
   file{
     '/usr/local/sbin/fpm-kill-pool.sh':
@@ -21,5 +22,8 @@ class php::fpm::base(
       content => template('php/fpm/fpm-kill-pool.timer.erb'),
       enable  => true,
       active  => true,
+  }
+  if $use_munin {
+    include php::fpm::munin
   }
 }
