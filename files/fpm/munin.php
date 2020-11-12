@@ -8,10 +8,26 @@
 * @licence CC
 */
 
+exec("cd /tmp && find /run/fpm* -type s", $sockets);
+$pools = preg_replace('/^\/run\/fpm\-(.*)-socket\/(\d+)\.socket$/','${1}-${2}',$sockets);
+
+$groups = array();
+foreach ($pools as $pool) {
+    $poolName = str_replace('.', '_', $pool);
+    if (!isset($groups[$poolName])) {
+        $groups[$poolName] = array(
+        	'count' => 0,
+        	'memory' => 0,
+        	'cpu' => 0,
+        	'time' => 0
+        );
+    }
+}
+
+
 exec("ps -eo %cpu,etime,rss,command | grep php-fpm", $result);
 
 //iterate through processes
-$groups = array();
 foreach ($result as $line) {
 	//split fields
 	$line = trim($line);
