@@ -1,3 +1,3 @@
 class php::extensions::pear::date_holidays {
-  php::pear{'Date-Holidays': }
+  php::pear { 'Date-Holidays': }
 }

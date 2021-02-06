@@ -1,5 +1,5 @@
 # fpm base stuff
-class php::fpm::base(
+class php::fpm::base (
   String $on_calendar = '*:0/30',
   Hash  $settings     = {
     'pm'                      => 'ondemand',
@@ -8,16 +8,16 @@ class php::fpm::base(
   },
   Boolean $use_munin  = false,
 ) {
-  file{
+  file {
     '/usr/local/sbin/fpm-kill-pool.sh':
       source => 'puppet:///modules/php/fpm/kill-pool.sh',
       owner  => root,
       group  => 0,
       mode   => '0755',
-  } -> systemd::unit_file{
+  } -> systemd::unit_file {
     'fpm-kill-pool.service':
       source => 'puppet:///modules/php/fpm/kill-pool.service',
-  } -> systemd::unit_file{
+  } -> systemd::unit_file {
     'fpm-kill-pool.timer':
       content => template('php/fpm/fpm-kill-pool.timer.erb'),
       enable  => true,

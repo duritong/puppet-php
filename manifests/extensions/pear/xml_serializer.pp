@@ -1,3 +1,3 @@
 class php::extensions::pear::xml_serializer {
-  php::pear{'XML-Serializer': }
+  php::pear { 'XML-Serializer': }
 }

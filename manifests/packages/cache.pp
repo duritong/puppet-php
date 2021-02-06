@@ -1,6 +1,6 @@
 # the cache package
 class php::packages::cache {
-  php::pear{'Cache': 
-    mode => 'cli', 
+  php::pear { 'Cache':
+    mode => 'cli',
   }
 }

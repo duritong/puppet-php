@@ -1,7 +1,7 @@
 # manage an scl phpX installation
 # this should do everything you need
 # for an scl installation
-define php::scl::phpx(
+define php::scl::phpx (
   $etcdir            = "/opt/remi/php${name}/root/etc",
   $timezone          = 'Europe/Berlin',
   $settings          = {},
@@ -10,7 +10,7 @@ define php::scl::phpx(
   $apc_config_preifx = '40-',
 ) {
   require "::scl::php${name}"
-  file{
+  file {
     "${etcdir}/php.d/timezone.ini":
       content => "date.timezone = '${timezone}'\n",
       require => Class["::scl::php${name}"],
@@ -20,9 +20,9 @@ define php::scl::phpx(
       group   => 0,
       mode    => '0644';
   }
-  include ::php::params
+  include php::params
   $php_settings = deep_merge(deep_merge($php::params::security_settings,
-                    $php::params::global_settings),$settings)
+  $php::params::global_settings),$settings)
   $defaults = {
     path    => "${etcdir}/php.ini",
     require => Class["::scl::php${name}"],
@@ -40,17 +40,17 @@ define php::scl::phpx(
       $default_suhosin_settings = {}
     }
     $php_suhosin_settings = merge(merge($suhosin_settings,
-                                      $php::params::suhosin_default_settings),
-                                $default_suhosin_settings)
+      $php::params::suhosin_default_settings),
+    $default_suhosin_settings)
     $suhosin_defaults = {
       path    => "${etcdir}/php.d/suhosin.ini",
       require => Class["scl::php${name}"],
       notify  => Service['apache'],
     }
-    create_ini_settings({'' => $php_suhosin_settings},$suhosin_defaults)
+    create_ini_settings( { '' => $php_suhosin_settings },$suhosin_defaults)
   }
-  php::apc::settings{"${etcdir}/php.d/${apc_config_preifx}apcu.ini": }
-  file{
+  php::apc::settings { "${etcdir}/php.d/${apc_config_preifx}apcu.ini": }
+  file {
     "${etcdir}/php-fpm.d":
       ensure  => directory,
       purge   => true,

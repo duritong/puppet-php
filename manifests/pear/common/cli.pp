@@ -3,4 +3,3 @@ class php::pear::common::cli {
   require php::pear::common
   require php::devel
 }
-
