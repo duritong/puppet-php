@@ -1,5 +1,5 @@
 # manage suhosin package
-class php::suhosin(
+class php::suhosin (
 
 ) {
 }

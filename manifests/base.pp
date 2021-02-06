@@ -1,9 +1,9 @@
 # setup php
 class php::base {
-  package{['php','php-fpm']:
+  package { ['php','php-fpm']:
     ensure  => present,
     require => Package['apache'],
-  } -> file{
+  } -> file {
     '/etc/php.d/timezone.ini':
       content => "date.timezone = '${php::timezone}'\n",
       notify  => Service['apache'],
@@ -21,7 +21,7 @@ class php::base {
   }
 
   $php_settings = deep_merge($php::security_settings,deep_merge($php::settings,
-    $php::params::global_settings))
+  $php::params::global_settings))
   $defaults = {
     path    => '/etc/php.ini',
     require => Package['php'],
@@ -29,7 +29,7 @@ class php::base {
   }
   create_ini_settings($php_settings,$defaults)
 
-  package{'php-suhosin':
+  package { 'php-suhosin':
     ensure  => installed,
     require => Package['php'],
   }
@@ -42,19 +42,17 @@ class php::base {
     $default_suhosin_settings = {}
   }
   $suhosin_settings = merge(merge($php::suhosin_settings,
-                                    $php::suhosin_default_settings),
-                              $default_suhosin_settings)
+    $php::suhosin_default_settings),
+  $default_suhosin_settings)
   $suhosin_defaults = {
     path    => '/etc/php.d/suhosin.ini',
     require => Package['php-suhosin'],
     notify  => Service['apache'],
   }
-  create_ini_settings({'' => $suhosin_settings},$suhosin_defaults)
+  create_ini_settings( { '' => $suhosin_settings },$suhosin_defaults)
 
-  include ::php::extensions::common
+  include php::extensions::common
 
-  if versioncmp($::operatingsystemmajrelease,'6') > 0 {
-    include ::php::extensions::pecl::opcache
-  }
-  include ::php::apc
+  include php::extensions::pecl::opcache
+  include php::apc
 }

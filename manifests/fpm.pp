@@ -1,5 +1,5 @@
 # manage a php fpm instance
-define php::fpm(
+define php::fpm (
   Optional[Pattern[/\Aphp\d+\Z/]] $php_inst_class  = undef,
   Enum['present','absent']        $ensure          = 'present',
   Stdlib::Compat::Absolute_Path   $workdir         = "/var/www/vhosts/${name}",
@@ -12,9 +12,8 @@ define php::fpm(
   String                          $run_user        = "${name}_run",
   String                          $run_group       = $name,
   Array[Stdlib::Compat::Absolute_Path]
-                                  $writable_dirs   = [],
-){
-
+  $writable_dirs   = [],
+) {
   include systemd::systemctl::daemon_reload
   include php::disable_mod_php
   if $php_inst_class {
@@ -31,10 +30,10 @@ define php::fpm(
     $php_name = 'php'
     $binary = '/usr/sbin/php-fpm'
   }
-  service{
-    [ "fpm-${name}.socket",
-      "fpm-${name}" ]:;
-  } -> logrotate::rule{
+  service {
+    ["fpm-${name}.socket",
+    "fpm-${name}"]:;
+  } -> logrotate::rule {
     "fpm-error-logs-${name}":
       path         => "${logdir}/fpm-error.log",
       missingok    => true,
@@ -45,8 +44,8 @@ define php::fpm(
       su_user      => $run_user,
       su_group     => $run_group,
   }
-  file{
-    [ "${etcdir}/php-fpm.d/${name}.conf",
+  file {
+    ["${etcdir}/php-fpm.d/${name}.conf",
       "/etc/systemd/system/fpm-${name}.socket",
       "/etc/systemd/system/fpm-${name}.service",
     ]:
@@ -56,17 +55,17 @@ define php::fpm(
   if $ensure == 'present' {
     include php::fpm::base
     $real_fpm_settings = $php::fpm::base::settings + $fpm_settings
-    File[ "${etcdir}/php-fpm.d/${name}.conf"]{
+    File["${etcdir}/php-fpm.d/${name}.conf"] {
       content => template('php/fpm/conf.erb'),
       group   => $run_group,
       mode    => '0640',
     }
     File["/etc/systemd/system/fpm-${name}.socket",
-      "/etc/systemd/system/fpm-${name}.service"]{
-        group => 0,
-        mode  => '0644',
+    "/etc/systemd/system/fpm-${name}.service"] {
+      group => 0,
+      mode  => '0644',
     }
-    File["/etc/systemd/system/fpm-${name}.socket"]{
+    File["/etc/systemd/system/fpm-${name}.socket"] {
       content => template('php/fpm/systemd-socket.erb'),
       notify  => Service["fpm-${name}.socket"],
     }
@@ -74,27 +73,27 @@ define php::fpm(
       content => template('php/fpm/systemd-service.erb'),
       notify  => Service["fpm-${name}"],
     }
-    Exec['systemctl-daemon-reload'] -> Service["fpm-${name}.socket"]{
+    Exec['systemctl-daemon-reload'] -> Service["fpm-${name}.socket"] {
       ensure => 'running',
       enable => true,
-    } ~> Service["fpm-${name}"]{
+    } ~> Service["fpm-${name}"] {
       tag => "systemd-${php_name}-fpm"
     } -> Service<| title == 'apache' |>
     User<| title == $run_user |> -> Service["fpm-${name}.socket"]
     Group<| title == $run_group |> -> Service["fpm-${name}.socket"]
   } else {
-    Logrotate::Rule["fpm-error-logs-${name}"]{
+    Logrotate::Rule["fpm-error-logs-${name}"] {
       ensure => absent,
     }
-    Service["fpm-${name}"]{
+    Service["fpm-${name}"] {
       ensure => stopped,
       enable => false,
-    } -> Service["fpm-${name}.socket"]{
+    } -> Service["fpm-${name}.socket"] {
       ensure => stopped,
       enable => false
-    } -> File[ "${etcdir}/php-fpm.d/${name}.conf",
+    } -> File["${etcdir}/php-fpm.d/${name}.conf",
       "/etc/systemd/system/fpm-${name}.socket",
-      "/etc/systemd/system/fpm-${name}.service"] {
+    "/etc/systemd/system/fpm-${name}.service"] {
       ensure => absent,
     }
 

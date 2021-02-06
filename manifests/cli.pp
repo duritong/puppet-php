@@ -1,7 +1,7 @@
 # manage cli package
 class php::cli {
-  php::package{'cli':
-    mode   => 'direct',
+  php::package { 'cli':
     ensure => present,
+    mode   => 'direct',
   }
 }

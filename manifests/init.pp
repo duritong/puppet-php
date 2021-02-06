@@ -5,7 +5,7 @@
 # Marcel Haerry haerry+puppet(at)puzzle.ch
 # Simon Josi josi+puppet(at)puzzle.ch
 # See LICENSE for the full license granted to you.
-class php(
+class php (
   $settings                 = {},
   $timezone                 = $php::params::timezone,
   $security_settings        = $php::params::security_settings,
@@ -13,5 +13,5 @@ class php(
   $suhosin_default_settings = $php::params::suhosin_default_settings,
   $suhosin_cryptkey         = $php::params::suhosin_cryptkey,
 ) inherits php::params {
-  include ::php::base
+  include php::base
 }

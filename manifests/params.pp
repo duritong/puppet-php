@@ -1,5 +1,5 @@
 # some default params for php
-class php::params(
+class php::params (
   $global_settings          = {
     'PHP' => {
       upload_max_filesize => '20M',

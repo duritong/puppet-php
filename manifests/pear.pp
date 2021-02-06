@@ -1,6 +1,6 @@
 # manage pear installations
 define php::pear (
-  $phpversion  = '',
+  $phpversion  = undef,
   $ensure      = 'installed',
   $mode        = 'package',
   $state       = 'stable',
@@ -9,14 +9,14 @@ define php::pear (
   require php::pear::common
   case $mode {
     'package': {
-      php::package{$name:
-          phpversion => $phpversion,
-          ensure     => $ensure,
-          mode       => 'pear',
+      php::package { $name:
+        ensure     => $ensure,
+        phpversion => $phpversion,
+        mode       => 'pear',
       }
     }
     'cli': {
-      php::install{$name:
+      php::install { $name:
         ensure      => $ensure,
         mode        => 'pear',
         state       => $state,
