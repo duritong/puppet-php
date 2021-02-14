@@ -29,30 +29,31 @@ class php::base {
   }
   create_ini_settings($php_settings,$defaults)
 
-  package { 'php-suhosin':
-    ensure  => installed,
-    require => Package['php'],
-  }
-  if $php::suhosin_cryptkey {
-    $default_suhosin_settings = {
-      'suhosin.session.cryptkey' => sha1("${php::suhosin_cryptkey}_session"),
-      'suhosin.cookie.cryptkey'  => sha1("${php::suhosin_cryptkey}_cookie"),
-    }
-  } else {
-    $default_suhosin_settings = {}
-  }
-  $suhosin_settings = merge(merge($php::suhosin_settings,
-    $php::suhosin_default_settings),
-  $default_suhosin_settings)
-  $suhosin_defaults = {
-    path    => '/etc/php.d/suhosin.ini',
-    require => Package['php-suhosin'],
-    notify  => Service['apache'],
-  }
-  create_ini_settings( { '' => $suhosin_settings },$suhosin_defaults)
-
   include php::extensions::common
-
-  include php::extensions::pecl::opcache
   include php::apc
+  if versioncmp($facts['os']['release']['major'],'8') < 0 {
+    package { 'php-suhosin':
+      ensure  => installed,
+      require => Package['php'],
+    }
+    if $php::suhosin_cryptkey {
+      $default_suhosin_settings = {
+        'suhosin.session.cryptkey' => sha1("${php::suhosin_cryptkey}_session"),
+        'suhosin.cookie.cryptkey'  => sha1("${php::suhosin_cryptkey}_cookie"),
+      }
+    } else {
+      $default_suhosin_settings = {}
+    }
+    $suhosin_settings = merge(merge($php::suhosin_settings,
+      $php::suhosin_default_settings),
+    $default_suhosin_settings)
+    $suhosin_defaults = {
+      path    => '/etc/php.d/suhosin.ini',
+      require => Package['php-suhosin'],
+      notify  => Service['apache'],
+    }
+    create_ini_settings( { '' => $suhosin_settings },$suhosin_defaults)
+
+    include php::extensions::pecl::opcache
+  }
 }
