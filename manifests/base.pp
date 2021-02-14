@@ -55,5 +55,8 @@ class php::base {
     create_ini_settings( { '' => $suhosin_settings },$suhosin_defaults)
 
     include php::extensions::pecl::opcache
+  } else {
+    # TODO: eventually make this opt-out
+    fail('Do not use system php from EL8 on, rather use one of the SCLs')
   }
 }
