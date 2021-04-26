@@ -14,7 +14,6 @@ define php::fpm (
   Array[Stdlib::Compat::Absolute_Path]
   $writable_dirs   = [],
 ) {
-  include systemd::systemctl::daemon_reload
   include php::disable_mod_php
   if $php_inst_class {
     require "::php::scl::${php_inst_class}"
@@ -50,7 +49,7 @@ define php::fpm (
       "/etc/systemd/system/fpm-${name}.service",
     ]:
       owner => root,
-  } ~> Exec['systemctl-daemon-reload']
+  }
 
   if $ensure == 'present' {
     include php::fpm::base
@@ -73,7 +72,7 @@ define php::fpm (
       content => template('php/fpm/systemd-service.erb'),
       notify  => Service["fpm-${name}"],
     }
-    Exec['systemctl-daemon-reload'] -> Service["fpm-${name}.socket"] {
+    Service["fpm-${name}.socket"] {
       ensure => 'running',
       enable => true,
     } ~> Service["fpm-${name}"] {
