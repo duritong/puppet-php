@@ -15,6 +15,7 @@ define php::fpm (
   $writable_dirs   = [],
 ) {
   include php::disable_mod_php
+  include php::fpm::systemd_daemon_reload
   if $php_inst_class {
     require "::php::scl::${php_inst_class}"
     $etcdir = getvar("php::scl::${php_inst_class}::etcdir")
@@ -49,7 +50,7 @@ define php::fpm (
       "/etc/systemd/system/fpm-${name}.service",
     ]:
       owner => root,
-  }
+  } ~> Exec['systemctl-daemon-reload-fpm']
 
   if $ensure == 'present' {
     include php::fpm::base
@@ -72,7 +73,8 @@ define php::fpm (
       content => template('php/fpm/systemd-service.erb'),
       notify  => Service["fpm-${name}"],
     }
-    Service["fpm-${name}.socket"] {
+    Exec['systemctl-daemon-reload-fpm']
+    -> Service["fpm-${name}.socket"] {
       ensure => 'running',
       enable => true,
     } ~> Service["fpm-${name}"] {
