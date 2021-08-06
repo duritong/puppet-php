@@ -28,13 +28,13 @@ sp.disable_function.function("shell_exec").param("command").value_r("[$|;&`\\\\n
 sp.disable_function.function("exec").param("command").value_r("[$|;&`\\\\n]").drop();
 sp.disable_function.function("proc_open").param("command").value_r("[$|;&`\\\\n]").drop();',
     '050-runtime-mods' => '# Prevent runtime modification of interesting things
-sp.disable_function.function("ini_set").param("var_name").value("assert.active").drop();
-sp.disable_function.function("ini_set").param("var_name").value("zend.assertions").drop();
-sp.disable_function.function("ini_set").param("var_name").value("memory_limit").drop();
-sp.disable_function.function("ini_set").param("var_name").value("include_path").drop();
-sp.disable_function.function("ini_set").param("var_name").value("open_basedir").drop();',
+sp.disable_function.function("ini_set").param("varname").value("assert.active").drop();
+sp.disable_function.function("ini_set").param("varname").value("zend.assertions").drop();
+# sp.disable_function.function("ini_set").param("varname").value("memory_limit").drop();
+# sp.disable_function.function("ini_set").param("varname").value("include_path").drop();
+sp.disable_function.function("ini_set").param("varname").value("open_basedir").drop();',
     '060-env-recon'       => '# Detect some backdoors via environnement recon
-sp.disable_function.function("ini_get").param("var_name").value_r("(?:allow_url_fopen|open_basedir|suhosin)").drop();',
+# sp.disable_function.function("ini_get").param("varname").value_r("(?:allow_url_fopen|open_basedir|suhosin)").drop();',
     '070-file-upload'     => '#File upload
 sp.disable_function.function("move_uploaded_file").param("destination").value_r("\\\\.ph").drop();
 sp.disable_function.function("move_uploaded_file").param("destination").value_r("\\\\.ht").drop();',
