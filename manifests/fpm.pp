@@ -14,7 +14,9 @@ define php::fpm (
   Array[Stdlib::Compat::Absolute_Path]
   $writable_dirs   = [],
 ) {
-  include php::disable_mod_php
+  if versioncmp($facts['os']['release']['major'], '8') < 0 {
+    include php::disable_mod_php
+  }
   include php::fpm::systemd_daemon_reload
   if $php_inst_class {
     require "::php::scl::${php_inst_class}"
