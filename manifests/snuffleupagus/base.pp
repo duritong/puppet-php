@@ -1,6 +1,7 @@
 # manage snufleupagus baseline
 define php::snuffleupagus::base (
   Stdlib::Compat::Absolute_Path $etcdir,
+  Pattern[/^\d+$/] $version = $name,
 ) {
   include php::snuffleupagus::global
   file {
