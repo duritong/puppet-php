@@ -14,8 +14,10 @@ define php::fpm (
   Array[Stdlib::Compat::Absolute_Path]
   $writable_dirs   = [],
 ) {
-  if versioncmp($facts['os']['release']['major'], '8') < 0 {
+  if !$php_inst_class and versioncmp($facts['os']['release']['major'], '8') < 0 {
     include php::disable_mod_php
+  } elsif !$php_inst_class {
+    fail('php system installation not supported on EL >= 8')
   }
   include php::fpm::systemd_daemon_reload
   if $php_inst_class {
