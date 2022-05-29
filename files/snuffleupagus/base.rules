@@ -1,5 +1,7 @@
 # Harden the PRNG
 sp.harden_random.enable();
 
-# Disabled XXE
-sp.disable_xxe.enable();
+# Enable XXE protection
+@condition extension_loaded("xml");
+sp.xxe_protection.enable();
+@end_condition;
