@@ -18,7 +18,7 @@ define php::fpm (
   if $ensure == 'present' and !$php_inst_class {
     include php::disable_mod_php
   }
-
+  include php::fpm::systemd_daemon_reload
   if $php_inst_class {
     require "php::scl::${php_inst_class}"
     $etcdir = getvar("php::scl::${php_inst_class}::etcdir")
