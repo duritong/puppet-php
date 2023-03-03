@@ -4,6 +4,7 @@ define php::fpm (
   Enum['present','absent']        $ensure          = 'present',
   Stdlib::Compat::Absolute_Path   $workdir         = "/var/www/vhosts/${name}",
   Stdlib::Compat::Absolute_Path   $logdir          = "/var/www/vhosts/${name}/logs",
+  String[1]                       $logfile_name    = 'fpm-error.log',
   Stdlib::Compat::Absolute_Path   $tmpdir          = "/var/www/vhosts/${name}/tmp/tmp",
   Hash                            $additional_envs = {},
   Hash                            $php_settings    = {},
@@ -14,14 +15,12 @@ define php::fpm (
   Array[Stdlib::Compat::Absolute_Path]
   $writable_dirs   = [],
 ) {
-  if !$php_inst_class and versioncmp($facts['os']['release']['major'], '8') < 0 {
+  if $ensure == 'present' and !$php_inst_class {
     include php::disable_mod_php
-  } elsif !$php_inst_class {
-    fail('php system installation not supported on EL >= 8')
   }
-  include php::fpm::systemd_daemon_reload
+
   if $php_inst_class {
-    require "::php::scl::${php_inst_class}"
+    require "php::scl::${php_inst_class}"
     $etcdir = getvar("php::scl::${php_inst_class}::etcdir")
     $basedir = getvar("php::scl::${php_inst_class}::basedir")
     $scl_name = getvar("php::scl::${php_inst_class}::scl_name")
@@ -39,7 +38,7 @@ define php::fpm (
     "fpm-${name}"]:;
   } -> logrotate::rule {
     "fpm-error-logs-${name}":
-      path         => "${logdir}/fpm-error.log",
+      path         => "${logdir}/${logfile_name}",
       missingok    => true,
       compress     => true,
       copytruncate => true,
